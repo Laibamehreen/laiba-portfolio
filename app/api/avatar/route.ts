@@ -5,11 +5,23 @@ import path from "path";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const imagePath = "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/pic.png";
+  const possiblePaths = [
+    path.join(process.cwd(), "pic.png"),
+    path.join(process.cwd(), "public", "pic.png"),
+    "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/pic.png"
+  ];
+
+  let resolvedPath = "";
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      resolvedPath = p;
+      break;
+    }
+  }
 
   try {
-    if (fs.existsSync(imagePath)) {
-      const fileBuffer = fs.readFileSync(imagePath);
+    if (resolvedPath) {
+      const fileBuffer = fs.readFileSync(resolvedPath);
       return new NextResponse(fileBuffer, {
         headers: {
           "Content-Type": "image/png",

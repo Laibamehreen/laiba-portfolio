@@ -5,8 +5,21 @@ import path from "path";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const sourcePath = "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/Laiba Mehreen _ CV.pdf";
-  const publicDir = "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/public";
+  const possibleSourcePaths = [
+    path.join(process.cwd(), "Laiba Mehreen _ CV.pdf"),
+    path.join(process.cwd(), "public", "Laiba_CV.pdf"),
+    "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/Laiba Mehreen _ CV.pdf"
+  ];
+
+  let sourcePath = "";
+  for (const p of possibleSourcePaths) {
+    if (fs.existsSync(p)) {
+      sourcePath = p;
+      break;
+    }
+  }
+
+  const publicDir = path.join(process.cwd(), "public");
   const destPath = path.join(publicDir, "Laiba_CV.pdf");
 
   try {
@@ -16,8 +29,10 @@ export async function GET() {
         fs.mkdirSync(publicDir, { recursive: true });
       }
       
-      // Auto-copy the real CV to the public folder
-      fs.copyFileSync(sourcePath, destPath);
+      // Auto-copy the real CV to the public folder if paths are different
+      if (sourcePath !== destPath) {
+        fs.copyFileSync(sourcePath, destPath);
+      }
 
       const fileBuffer = fs.readFileSync(destPath);
       return new NextResponse(fileBuffer, {
