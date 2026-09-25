@@ -4,61 +4,62 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
-  const possibleSourcePaths = [
-    path.join(process.cwd(), "Laiba Mehreen _ CV.pdf"),
+function getCvBuffer(): { buffer: Buffer; filename: string } | null {
+  const candidates = [
+    path.join(process.cwd(), "public", "Laiba_Mehreen_Resume.pdf"),
+    path.join(process.cwd(), "public", "Laiba_Mehreen_CV.pdf"),
     path.join(process.cwd(), "public", "Laiba_CV.pdf"),
-    "C:/Users/laiba/.gemini/antigravity-ide/scratch/laiba-portfolio/Laiba Mehreen _ CV.pdf"
+    path.join(process.cwd(), "Laiba Mehreen _ CV.pdf"),
   ];
 
-  let sourcePath = "";
-  for (const p of possibleSourcePaths) {
-    if (fs.existsSync(p)) {
-      sourcePath = p;
-      break;
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      try {
+        const buffer = fs.readFileSync(candidate);
+        return { buffer, filename: "Laiba_Mehreen_Resume.pdf" };
+      } catch (err) {
+        console.error("Error reading candidate:", candidate, err);
+      }
     }
   }
+  return null;
+}
 
-  const publicDir = path.join(process.cwd(), "public");
-  const destPath = path.join(publicDir, "Laiba_CV.pdf");
+export async function GET() {
+  const result = getCvBuffer();
 
-  try {
-    if (fs.existsSync(sourcePath)) {
-      // Create public directory if it doesn't exist (failsafe)
-      if (!fs.existsSync(publicDir)) {
-        fs.mkdirSync(publicDir, { recursive: true });
-      }
-      
-      // Auto-copy the real CV to the public folder if paths are different
-      if (sourcePath !== destPath) {
-        fs.copyFileSync(sourcePath, destPath);
-      }
-
-      const fileBuffer = fs.readFileSync(destPath);
-      return new NextResponse(fileBuffer, {
-        headers: {
-          "Content-Type": "application/pdf",
-          "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_Resume.pdf\"",
-          "Content-Length": fileBuffer.length.toString(),
-          "Cache-Control": "no-cache",
-        },
-      });
-    } else {
-      // Fallback: If source is missing, check if it was already copied to dest
-      if (fs.existsSync(destPath)) {
-        const fileBuffer = fs.readFileSync(destPath);
-        return new NextResponse(fileBuffer, {
-          headers: {
-            "Content-Type": "application/pdf",
-            "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_Resume.pdf\"",
-            "Content-Length": fileBuffer.length.toString(),
-            "Cache-Control": "no-cache",
-          },
-        });
-      }
-      return NextResponse.json({ error: "CV file not found at local workspace path" }, { status: 404 });
-    }
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to process CV download" }, { status: 500 });
+  if (!result) {
+    return NextResponse.json(
+      { error: "Resume file not found" },
+      { status: 404 }
+    );
   }
+
+  return new NextResponse(result.buffer, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="${result.filename}"`,
+      "Content-Length": result.buffer.length.toString(),
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+    },
+  });
+}
+
+export async function HEAD() {
+  const result = getCvBuffer();
+
+  if (!result) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="${result.filename}"`,
+      "Content-Length": result.buffer.length.toString(),
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+    },
+  });
 }

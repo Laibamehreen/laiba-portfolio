@@ -16,16 +16,13 @@ export default function DownloadCVButton({
   const [downloading, setDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 
-  const handleDownload = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleDownload = () => {
     setDownloading(true);
-    try {
-      await downloadResumeFile("Laiba_Mehreen_CV.pdf");
-      setDownloaded(true);
-      setTimeout(() => setDownloaded(false), 2500);
-    } finally {
+    setTimeout(() => {
       setDownloading(false);
-    }
+      setDownloaded(true);
+      setTimeout(() => setDownloaded(false), 3000);
+    }, 400);
   };
 
   if (variant === "compact") {

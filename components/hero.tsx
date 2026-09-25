@@ -11,16 +11,13 @@ export default function Hero() {
   const [downloadingResume, setDownloadingResume] = useState(false);
   const [downloadedResume, setDownloadedResume] = useState(false);
 
-  const handleResumeDownload = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleResumeDownload = () => {
     setDownloadingResume(true);
-    try {
-      await downloadResumeFile("Laiba_Mehreen_Resume.pdf");
-      setDownloadedResume(true);
-      setTimeout(() => setDownloadedResume(false), 2500);
-    } finally {
+    setTimeout(() => {
       setDownloadingResume(false);
-    }
+      setDownloadedResume(true);
+      setTimeout(() => setDownloadedResume(false), 3000);
+    }, 400);
   };
   return (
     <section className="relative pt-12 pb-16 md:pt-16 md:pb-24 overflow-hidden">
@@ -105,6 +102,8 @@ export default function Hero() {
                 <a
                   href="/api/cv"
                   download="Laiba_Mehreen_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={handleResumeDownload}
                   aria-label="Download Resume"
                   title="Download Resume (PDF)"
