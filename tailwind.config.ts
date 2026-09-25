@@ -6,76 +6,51 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
+    "./data/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#080B16",
+        foreground: "#F8FAFC",
+        navy: {
+          950: "#080B16",
+          900: "#0E1326",
+          850: "#13182E",
+          800: "#18203D",
+          700: "#222B52",
+        },
+        lavender: {
+          300: "#C4B5FD",
+          400: "#A78BFA", // Primary accent
+          500: "#8B5CF6", // Secondary accent
+          600: "#7C3AED",
+          glow: "rgba(167, 139, 250, 0.15)",
+        },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#0E1326",
+          foreground: "#F8FAFC",
+          lighter: "#13182E",
+          border: "rgba(167, 139, 250, 0.15)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#18203D",
+          foreground: "#94A3B8",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#A78BFA",
+          foreground: "#080B16",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        brand: {
-          violet: "#7C3AED",
-          purple: "#8B5CF6",
-          fuchsia: "#A855F7",
-          darkSlate: "#0F172A",
-          darkGray: "#111827",
-          lightSlate: "#1E293B",
-        }
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        "3xl": "1.5rem",
+        "4xl": "2rem",
       },
-      animation: {
-        "spin-slow": "spin 12s linear infinite",
-        "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "float-slow": "float 6s ease-in-out infinite",
-        "float-medium": "float 4s ease-in-out infinite",
-        "blob": "blob 10s infinite",
-      },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
-          "50%": { transform: "translateY(-15px) rotate(2deg)" },
-        },
-        blob: {
-          "0%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
-          "33%": {
-            transform: "translate(40px, -60px) scale(1.2)",
-          },
-          "66%": {
-            transform: "translate(-30px, 30px) scale(0.85)",
-          },
-          "100%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
-        },
+      boxShadow: {
+        "lavender-sm": "0 0 15px -3px rgba(167, 139, 250, 0.12)",
+        "lavender-md": "0 0 25px -5px rgba(167, 139, 250, 0.2)",
+        "lavender-lg": "0 0 35px -5px rgba(167, 139, 250, 0.28)",
+        "card-subtle": "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
       },
     },
   },

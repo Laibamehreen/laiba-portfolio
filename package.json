@@ -17,6 +17,7 @@
     "next": "^15.0.3",
     "react": "^19.0.0-rc-66a30550-20241107",
     "react-dom": "^19.0.0-rc-66a30550-20241107",
+    "resend": "^6.28.1",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {

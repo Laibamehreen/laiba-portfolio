@@ -1,166 +1,104 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
-import { Monitor, Server, Database, Brain, Cpu, CheckCircle2 } from "lucide-react";
-
-interface SkillItem {
-  name: string;
-  level: number; // percentage
-}
-
-interface SkillCategory {
-  title: string;
-  icon: React.ReactNode;
-  color: string;
-  skills: SkillItem[];
-}
+import { Server, Layout, Database, CheckCircle, Code2, ShieldCheck, Cpu } from "lucide-react";
+import SectionHeading from "./section-heading";
+import ScrollRevealSection from "./scroll-reveal-section";
+import { SKILLS_DATA } from "@/data/skills";
 
 export default function Skills() {
-  const skillCategories: SkillCategory[] = [
-    {
-      title: "Frontend Development",
-      icon: <Monitor className="w-5 h-5" />,
-      color: "text-violet-400 border-violet-500/25 bg-violet-500/5",
-      skills: [
-        { name: "Next.js", level: 90 },
-        { name: "React", level: 92 },
-        { name: "TypeScript", level: 85 },
-        { name: "JavaScript", level: 90 },
-        { name: "Tailwind CSS", level: 95 },
-        { name: "HTML5 & CSS3", level: 95 }
-      ]
-    },
-    {
-      title: "Backend Engineering",
-      icon: <Server className="w-5 h-5" />,
-      color: "text-indigo-400 border-indigo-500/25 bg-indigo-500/5",
-      skills: [
-        { name: "Node.js", level: 85 },
-        { name: "REST APIs", level: 88 }
-      ]
-    },
-    {
-      title: "Databases",
-      icon: <Database className="w-5 h-5" />,
-      color: "text-fuchsia-400 border-fuchsia-500/25 bg-fuchsia-500/5",
-      skills: [
-        { name: "MongoDB", level: 85 },
-        { name: "PostgreSQL", level: 80 }
-      ]
-    },
-    {
-      title: "AI & Data Science",
-      icon: <Brain className="w-5 h-5" />,
-      color: "text-purple-400 border-purple-500/25 bg-purple-500/5",
-      skills: [
-        { name: "Python", level: 88 },
-        { name: "Pandas & NumPy", level: 80 },
-        { name: "Machine Learning", level: 75 }
-      ]
-    },
-    {
-      title: "Tools & Workflow",
-      icon: <Cpu className="w-5 h-5" />,
-      color: "text-slate-300 border-slate-500/25 bg-slate-500/5",
-      skills: [
-        { name: "Git & GitHub", level: 90 },
-        { name: "VS Code", level: 95 }
-      ]
+  const getCategoryIcon = (key: string) => {
+    switch (key) {
+      case "backend":
+        return Server;
+      case "frontend":
+        return Layout;
+      case "databases":
+        return Database;
+      default:
+        return Code2;
     }
-  ];
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      },
-    },
   };
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden">
-      {/* Decorative Blob */}
-      <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full bg-violet-600/5 blur-[130px] pointer-events-none" />
+    <ScrollRevealSection id="skills" className="py-16 md:py-20 border-t border-white/[0.04]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          badge="Technical Skills"
+          title="Core Competencies"
+          subtitle="Specialized in backend architectures with Java & Spring Boot, paired with modern web engineering and data persistence."
+        />
 
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-violet-400 mb-3 bg-violet-400/5 px-3.5 py-1.5 rounded-full border border-violet-500/10">
-            Skills Stack
-          </h2>
-          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Tools & Technologies
-          </h3>
-          <p className="text-slate-400 max-w-xl mt-4 font-medium">
-            A comprehensive breakdown of the frameworks, libraries, databases, and core libraries I work with.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {SKILLS_DATA.map((category) => {
+            const Icon = getCategoryIcon(category.categoryKey);
+            const isBackend = category.categoryKey === "backend";
 
-        {/* Categories Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {skillCategories.map((category) => (
-            <motion.div
-              key={category.title}
-              variants={cardVariants}
-              className="glass-card p-6.5 rounded-3xl relative overflow-hidden flex flex-col justify-between glow-effect group"
-            >
-              {/* Category Title & Icon */}
-              <div>
-                <div className={`flex items-center gap-3.5 mb-6 ${category.color} border px-4 py-2 rounded-2xl w-fit`}>
-                  {category.icon}
-                  <span className="text-sm font-bold tracking-wide">{category.title}</span>
-                </div>
-
-                {/* Skills List with Progress Bars */}
-                <div className="space-y-4">
-                  {category.skills.map((skill) => (
-                    <div key={skill.name} className="group/item">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-slate-200 text-sm font-semibold flex items-center gap-2 group-hover/item:text-white transition-colors">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-violet-500/70 group-hover/item:text-violet-400 transition-colors" />
-                          {skill.name}
-                        </span>
-                        <span className="text-slate-400 text-xs font-bold">{skill.level}%</span>
+            return (
+              <motion.div
+                key={category.categoryKey}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`cv-card p-6 flex flex-col justify-between relative transition-shadow duration-300 hover:shadow-lavender-md ${
+                  isBackend ? "md:col-span-1 md:row-span-1 border-lavender-400/30 shadow-lavender-sm" : ""
+                }`}
+              >
+                <div>
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/25 flex items-center justify-center text-lavender-300">
+                        <Icon className="w-5 h-5" />
                       </div>
-
-                      {/* Progress Track */}
-                      <div className="w-full h-1.5 bg-slate-900/60 rounded-full overflow-hidden border border-white/5">
-                        <motion.div
-                          variants={{
-                            hidden: { width: 0 },
-                            visible: { width: `${skill.level}%` }
-                          }}
-                          transition={{ duration: 1.2, ease: "easeOut" }}
-                          className="h-full bg-gradient-to-r from-violet-600 via-purple-500 to-fuchsia-500 rounded-full"
-                        />
+                      <div>
+                        <h3 className="text-lg font-bold text-white">
+                          {category.title}
+                        </h3>
+                        <span className="text-xs text-lavender-300/80 font-medium">
+                          {category.skills.length} Technologies
+                        </span>
                       </div>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Category Description */}
+                  <p className="text-xs text-slate-400 mb-5 leading-relaxed">
+                    {category.description}
+                  </p>
+
+                  {/* Skills List / Chips */}
+                  <div className="space-y-2.5">
+                    {category.skills.map((skill) => (
+                      <motion.div
+                        key={skill.name}
+                        whileHover={{ x: 4, transition: { duration: 0.15 } }}
+                        className="group flex flex-col p-2.5 rounded-xl bg-navy-850/60 hover:bg-navy-800/80 border border-white/[0.05] hover:border-lavender-400/30 transition-colors duration-150"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-semibold text-white group-hover:text-lavender-300 transition-colors">
+                            {skill.name}
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-lavender-400/60 group-hover:bg-lavender-400" />
+                        </div>
+                        {skill.description && (
+                          <p className="text-[11px] text-slate-400 mt-1 leading-normal">
+                            {skill.description}
+                          </p>
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+
+                {/* Bottom decorative badge */}
+                <div className="mt-5 pt-3 border-t border-white/[0.04] text-[11px] font-medium text-slate-500 uppercase tracking-wider text-right">
+                  Verified Stack
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
-    </section>
+    </ScrollRevealSection>
   );
 }

@@ -1,140 +1,133 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Code2, Lightbulb, Sparkles } from "lucide-react";
+import { GraduationCap, Server, Database, Layers, CheckCircle2, ShieldCheck } from "lucide-react";
+import SectionHeading from "./section-heading";
+import ScrollRevealSection from "./scroll-reveal-section";
+import { PROFILE_DATA } from "@/data/profile";
 
 export default function About() {
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
+  const highlights = [
+    {
+      icon: GraduationCap,
+      title: "BS Computer Science",
+      subtitle: "COMSATS University (Expected 2028)",
+      description: "Strong grounding in data structures, algorithms, object-oriented design, and database architecture.",
     },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
+    {
+      icon: Server,
+      title: "Java Backend & Spring Boot",
+      subtitle: "Enterprise-Grade Architecture",
+      description: "Layered architecture (Controllers, Services, Repositories, Entities, DTOs) and secure REST API services.",
     },
-  };
+    {
+      icon: Database,
+      title: "Databases & Persistence",
+      subtitle: "Relational & Document Models",
+      description: "Working knowledge of PostgreSQL relational schemas and MongoDB document-based data management.",
+    },
+    {
+      icon: Layers,
+      title: "Full Stack Web Development",
+      subtitle: "End-to-End Integration",
+      description: "Connecting responsive frontend interfaces built with React and Next.js to robust backend APIs.",
+    },
+  ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-[#070A13]/30">
-      {/* Decorative Blur Blob */}
-      <div className="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-purple-600/5 blur-[120px] pointer-events-none" />
+    <ScrollRevealSection id="about" className="py-16 md:py-20 border-t border-white/[0.04]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          badge="Background"
+          title="About Me"
+          subtitle="Software engineer dedicated to resilient backend systems, scalable APIs, and clean full-stack web applications."
+        />
 
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-violet-400 mb-3 bg-violet-400/5 px-3.5 py-1.5 rounded-full border border-violet-500/10">
-            About Me
-          </h2>
-          <h3 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Learning, Building, Improving
-          </h3>
-          <p className="text-slate-455 max-w-2xl mt-4 font-semibold text-sm sm:text-base leading-relaxed">
-            I&apos;m a Computer Science student who enjoys learning new technologies and building projects. I like turning ideas into working applications and continuously improving my skills through practice and real world experience.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Main Narrative Card */}
+          <div className="lg:col-span-6 cv-card p-6 sm:p-8 flex flex-col justify-between h-full">
+            <div>
+              <div className="mb-4">
+                <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-lavender-400" />
+                  Software Engineer
+                </h3>
+              </div>
+
+              <div className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <p>
+                  {PROFILE_DATA.intro}
+                </p>
+              </div>
+
+              {/* Dedicated Core Strengths */}
+              <div className="mt-6 pt-6 border-t border-white/[0.06]">
+                <h4 className="text-xs uppercase tracking-wider font-semibold text-slate-400 mb-3 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-lavender-400" />
+                  <span>Core Strengths:</span>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {PROFILE_DATA.coreStrengths.map((strength) => (
+                    <motion.div
+                      key={strength}
+                      whileHover={{ scale: 1.02, x: 2 }}
+                      className="flex items-center gap-2 p-2.5 rounded-xl bg-navy-850/60 border border-lavender-400/15 text-xs text-slate-200 font-medium"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                      <span>{strength}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-white/[0.06] flex flex-wrap gap-2">
+              {["Java", "Spring Boot", "Spring Data JPA", "Spring Security", "REST APIs", "React", "Next.js"].map((tech) => (
+                <motion.span
+                  key={tech}
+                  whileHover={{ scale: 1.06, y: -1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="lavender-chip text-xs cursor-default transition-all duration-150"
+                >
+                  {tech}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+
+          {/* Highlights Grid */}
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 h-full auto-rows-fr">
+            {highlights.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
+                  className="h-full cv-card p-5 flex flex-col justify-between group transition-all duration-300 hover:shadow-lavender-md"
+                >
+                  <div className="flex flex-col justify-between h-full">
+                    <div>
+                      <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 flex items-center justify-center text-lavender-300 mb-3.5">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h4 className="text-base font-semibold text-white mb-1">
+                        {item.title}
+                      </h4>
+                      <p className="text-xs font-medium text-lavender-300/80 mb-2">
+                        {item.subtitle}
+                      </p>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed mt-2">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-
-        {/* Restructured 3-Card Bento Grid Layout */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          
-          {/* Card 1: Background (Span 2) */}
-          <motion.div
-            variants={cardVariants}
-            className="md:col-span-2 glass-card p-8 rounded-3xl relative overflow-hidden group glow-effect"
-          >
-            <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 text-violet-400 pointer-events-none">
-              <GraduationCap className="w-48 h-48" />
-            </div>
-            
-            <div className="flex items-center gap-3.5 mb-6 text-violet-400">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center border border-violet-500/20">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <span className="text-sm font-bold tracking-wider uppercase">Background</span>
-            </div>
-            
-            <h4 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-snug">
-              Computer Science Student
-            </h4>
-            <p className="text-slate-400 leading-relaxed font-medium">
-              Currently studying Computer Science and developing a strong foundation in programming, databases, software development, and problem solving. I enjoy applying what I learn by working on personal and academic projects.
-            </p>
-          </motion.div>
-
-          {/* Card 2: Highlights / Stats */}
-          <motion.div
-            variants={cardVariants}
-            className="glass-card p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden glow-effect group"
-          >
-            <div className="flex items-center gap-3.5 mb-6 text-fuchsia-400">
-              <div className="w-10 h-10 rounded-xl bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <span className="text-sm font-bold tracking-wider uppercase">Highlights</span>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-6 my-auto">
-              <div className="flex flex-col">
-                <span className="text-4xl font-black text-white bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400 tracking-tight">
-                  10+
-                </span>
-                <span className="text-slate-350 text-xs font-bold uppercase mt-1.5 tracking-wider">
-                  Projects Completed
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-4xl font-black text-white bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-fuchsia-400 tracking-tight">
-                  10+
-                </span>
-                <span className="text-slate-355 text-xs font-bold uppercase mt-1.5 tracking-wider">
-                  GitHub Repositories
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 3: Interests (Span 3 - Spans bottom row completely) */}
-          <motion.div
-            variants={cardVariants}
-            className="md:col-span-3 glass-card p-8 rounded-3xl relative overflow-hidden group glow-effect"
-          >
-            <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 text-violet-400 pointer-events-none">
-              <Lightbulb className="w-48 h-48" />
-            </div>
-
-            <div className="flex items-center gap-3.5 mb-6 text-violet-400">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center border border-violet-500/20">
-                <Lightbulb className="w-5 h-5" />
-              </div>
-              <span className="text-sm font-bold tracking-wider uppercase">Interests</span>
-            </div>
-
-            <h4 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-snug">
-              Web Development & Technology
-            </h4>
-            <p className="text-slate-400 leading-relaxed font-medium">
-              I enjoy creating websites and applications, learning modern tools, and exploring different areas of software development. Every project gives me an opportunity to learn something new.
-            </p>
-          </motion.div>
-
-        </motion.div>
       </div>
-    </section>
+    </ScrollRevealSection>
   );
 }

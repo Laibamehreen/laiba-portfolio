@@ -38,7 +38,9 @@ export async function GET() {
       return new NextResponse(fileBuffer, {
         headers: {
           "Content-Type": "application/pdf",
-          "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_CV.pdf\"",
+          "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_Resume.pdf\"",
+          "Content-Length": fileBuffer.length.toString(),
+          "Cache-Control": "no-cache",
         },
       });
     } else {
@@ -48,7 +50,9 @@ export async function GET() {
         return new NextResponse(fileBuffer, {
           headers: {
             "Content-Type": "application/pdf",
-            "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_CV.pdf\"",
+            "Content-Disposition": "attachment; filename=\"Laiba_Mehreen_Resume.pdf\"",
+            "Content-Length": fileBuffer.length.toString(),
+            "Cache-Control": "no-cache",
           },
         });
       }

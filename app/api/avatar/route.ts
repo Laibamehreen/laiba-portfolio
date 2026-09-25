@@ -22,9 +22,11 @@ export async function GET() {
   try {
     if (resolvedPath) {
       const fileBuffer = fs.readFileSync(resolvedPath);
+      const isJpeg = fileBuffer[0] === 0xFF && fileBuffer[1] === 0xD8;
+      const contentType = isJpeg ? "image/jpeg" : "image/png";
       return new NextResponse(fileBuffer, {
         headers: {
-          "Content-Type": "image/png",
+          "Content-Type": contentType,
           "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
           "Pragma": "no-cache",
           "Expires": "0",
