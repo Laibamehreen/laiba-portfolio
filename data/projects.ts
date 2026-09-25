@@ -43,7 +43,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     image: "/projects/ai-career-advisor.jpg",
     previewImage: "/projects/ai-career-advisor.jpg",
     githubUrl: "https://github.com/Laibamehreen/ai-career-advisor",
-    liveDemoUrl: "https://ai-career-advisor-demo.vercel.app",
+    liveDemoUrl: "https://ai-career-advisor-olive.vercel.app/",
     featured: true
   },
   {
@@ -59,7 +59,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     image: "/projects/data-governance.jpg",
     previewImage: "/projects/data-governance.jpg",
     githubUrl: "https://github.com/Laibamehreen/data-governance-maturity-assessment",
-    liveDemoUrl: "https://data-governance-assessment.vercel.app",
+    liveDemoUrl: "https://data-governance-maturity-assessment.vercel.app/",
     featured: true
   },
   {

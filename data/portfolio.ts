@@ -186,8 +186,8 @@ export const PORTFOLIO_DATA = {
         { label: "UI System", value: "shadcn/ui Primitives" },
         { label: "Intelligence", value: "AI Career Chatbot" },
       ],
-      githubUrl: "https://github.com",
-      liveDemoUrl: "https://ai-career-advisor-demo.vercel.app",
+      githubUrl: "https://github.com/Laibamehreen/ai-career-advisor",
+      liveDemoUrl: "https://ai-career-advisor-olive.vercel.app/",
     },
     {
       id: "hospital-management-system",
