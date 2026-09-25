@@ -89,11 +89,6 @@ export default function Skills() {
                     ))}
                   </div>
                 </div>
-
-                {/* Bottom decorative badge */}
-                <div className="mt-5 pt-3 border-t border-white/[0.04] text-[11px] font-medium text-slate-500 uppercase tracking-wider text-right">
-                  Verified Stack
-                </div>
               </motion.div>
             );
           })}

@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Download, ChevronRight } from "lucide-react";
-import DownloadCVButton from "./download-cv-button";
+import { Menu, X, ChevronRight } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
-import { downloadResumeFile } from "@/lib/download-cv";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -89,16 +87,14 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right Action: Theme Toggle & CV Download */}
+          {/* Desktop Right Action: Theme Toggle */}
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
-            <DownloadCVButton variant="compact" />
           </div>
 
           {/* Mobile Menu Button & Quick Theme Toggle */}
           <div className="flex lg:hidden items-center gap-2">
             <ThemeToggle />
-            <DownloadCVButton variant="compact" className="text-[11px] px-2.5 py-1" />
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle mobile menu"
@@ -142,22 +138,6 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
-            <div className="pt-4 mt-4 border-t border-white/10">
-              <a
-                href="/api/cv"
-                download="Laiba_Mehreen_CV.pdf"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  setIsOpen(false);
-                  await downloadResumeFile("Laiba_Mehreen_CV.pdf");
-                }}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-lavender-400 text-navy-950 font-semibold text-sm shadow-lavender-sm cursor-pointer"
-              >
-                <Download className="w-4 h-4" />
-                <span>Download CV (PDF)</span>
-              </a>
-            </div>
           </div>
         </div>
       )}
