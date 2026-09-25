@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -84,7 +82,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300`}>
+      <body className="font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300">
         <div className="min-h-screen flex flex-col justify-between">
           {children}
         </div>

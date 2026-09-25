@@ -11,8 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        sans: ["'Geist'", "var(--font-geist-sans)", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["'Geist Mono'", "var(--font-geist-mono)", "monospace"],
       },
       colors: {
         background: "#080B16",
