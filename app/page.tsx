@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "@/components/navbar";
+import ScrollProgress from "@/components/scroll-progress";
 import Hero from "@/components/hero";
 import About from "@/components/about";
 import Skills from "@/components/skills";
@@ -13,6 +14,9 @@ import Footer from "@/components/footer";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] transition-colors duration-300">
+      {/* Top Scroll Progress Bar */}
+      <ScrollProgress />
+
       {/* Sticky Minimal Navbar */}
       <Navbar />
 

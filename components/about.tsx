@@ -12,7 +12,7 @@ export default function About() {
     {
       icon: GraduationCap,
       title: "BS Computer Science",
-      subtitle: "COMSATS University (Expected 2028)",
+      subtitle: "COMSATS University (Expected 2028) • CGPA: 3.75",
       description: "Strong grounding in data structures, algorithms, object-oriented design, and database architecture.",
     },
     {

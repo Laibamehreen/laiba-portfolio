@@ -4,6 +4,7 @@ export interface EducationItem {
   fieldOfStudy: string;
   status: string;
   expectedGraduation: string;
+  cgpa: string;
   description: string;
   focusAreas: string[];
   keyCoursework: string[];
@@ -15,8 +16,9 @@ export const EDUCATION_DATA: EducationItem = {
   fieldOfStudy: "Computer Science",
   status: "Currently Pursuing • Expected 2028",
   expectedGraduation: "Expected 2028",
+  cgpa: "3.75 / 4.00",
   description:
-    "Pursuing Bachelor of Science in Computer Science with practical software engineering experience in Java, Spring Boot, REST APIs, database architecture, React, and Next.js.",
+    "Pursuing Bachelor of Science in Computer Science with a strong academic standing (CGPA: 3.75 / 4.00) and practical software engineering experience in Java, Spring Boot, REST APIs, database architecture, React, and Next.js.",
   focusAreas: [
     "Data Structures",
     "OOP (Java)",

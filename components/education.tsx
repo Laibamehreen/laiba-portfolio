@@ -24,23 +24,35 @@ export default function Education() {
           >
             <div className="flex flex-wrap items-start justify-between gap-4 mb-4 pb-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 flex items-center justify-center text-lavender-300">
+                <div className="w-12 h-12 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 flex items-center justify-center text-lavender-300 shrink-0">
                   <GraduationCap className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white">
                     {EDUCATION_DATA.degree}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-lavender-300 mt-1">
-                    <Building className="w-4 h-4 text-lavender-400" />
-                    <span>{EDUCATION_DATA.institution}</span>
+                  <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-lavender-300 mt-1">
+                    <span className="flex items-center gap-1.5">
+                      <Building className="w-4 h-4 text-lavender-400" />
+                      <span>{EDUCATION_DATA.institution}</span>
+                    </span>
+                    <span className="text-slate-500">•</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded-full bg-lavender-400/15 text-lavender-300 border border-lavender-400/30">
+                      CGPA: {EDUCATION_DATA.cgpa}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/25">
-                {EDUCATION_DATA.status}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-lavender-400/20 text-white border border-lavender-400/40 shadow-lavender-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-lavender-300 animate-pulse" />
+                  CGPA: {EDUCATION_DATA.cgpa}
+                </span>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/25">
+                  {EDUCATION_DATA.status}
+                </span>
+              </div>
             </div>
 
             <p className="text-sm text-slate-300 mb-6 leading-relaxed">

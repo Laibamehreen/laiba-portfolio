@@ -1,12 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 export const viewport: Viewport = {
   themeColor: "#080B16",
@@ -89,7 +84,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300`}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300`}>
         <div className="min-h-screen flex flex-col justify-between">
           {children}
         </div>

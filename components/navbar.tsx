@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronRight } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
+import CommandPalette from "./command-palette";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -87,13 +88,15 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right Action: Theme Toggle */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop Right Action: Command Palette + Theme Toggle */}
+          <div className="hidden lg:flex items-center gap-2.5">
+            <CommandPalette />
             <ThemeToggle />
           </div>
 
-          {/* Mobile Menu Button & Quick Theme Toggle */}
+          {/* Mobile Menu Button & Quick Actions */}
           <div className="flex lg:hidden items-center gap-2">
+            <CommandPalette />
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}

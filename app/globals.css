@@ -29,7 +29,7 @@
 
   html {
     scroll-behavior: smooth;
-    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   html.dark {
@@ -45,19 +45,23 @@
   }
 
   body {
-    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 }
 
-/* Premium Developer CV Rounded Cards with Silky Smooth Transitions */
+/* ==================================================
+   GLASSMORPHISM CARDS & PANELS (Silky Modern Blur)
+   ================================================== */
 .cv-card {
-  background-color: #0E1326;
-  border: 1px solid rgba(167, 139, 250, 0.12);
+  background: rgba(14, 19, 38, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(167, 139, 250, 0.16);
   border-radius: 1.25rem;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1);
@@ -65,9 +69,17 @@
 }
 
 .cv-card:hover {
-  border-color: rgba(167, 139, 250, 0.35);
-  box-shadow: 0 0 30px -5px rgba(167, 139, 250, 0.2), 0 12px 28px -4px rgba(0, 0, 0, 0.55);
+  border-color: rgba(167, 139, 250, 0.45);
+  box-shadow: 0 0 35px -5px rgba(167, 139, 250, 0.22), 0 16px 36px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(167, 139, 250, 0.2);
   transform: translateY(-4px);
+}
+
+.glass-panel {
+  background: rgba(14, 19, 38, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 1rem;
 }
 
 /* ==================================================
@@ -84,18 +96,26 @@ html:not(.dark) header {
 }
 
 html:not(.dark) .cv-card {
-  background-color: #FFFFFF !important;
-  border-color: rgba(167, 139, 250, 0.22) !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border-color: rgba(167, 139, 250, 0.24) !important;
+  box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.06), 0 2px 8px -1px rgba(15, 23, 42, 0.04), inset 0 1px 0 0 rgba(255, 255, 255, 0.8) !important;
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 html:not(.dark) .cv-card:hover {
-  border-color: rgba(167, 139, 250, 0.45) !important;
-  box-shadow: 0 0 30px -5px rgba(167, 139, 250, 0.22), 0 14px 28px -4px rgba(15, 23, 42, 0.09) !important;
+  border-color: rgba(167, 139, 250, 0.5) !important;
+  box-shadow: 0 0 35px -5px rgba(167, 139, 250, 0.22), 0 16px 32px -4px rgba(15, 23, 42, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.9) !important;
   transform: translateY(-4px) !important;
+}
+
+html:not(.dark) .glass-panel {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(167, 139, 250, 0.2) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
 }
 
 html:not(.dark) h1,
