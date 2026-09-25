@@ -31,15 +31,9 @@ export default function Education() {
                   <h3 className="text-xl sm:text-2xl font-bold text-white">
                     {EDUCATION_DATA.degree}
                   </h3>
-                  <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-lavender-300 mt-1">
-                    <span className="flex items-center gap-1.5">
-                      <Building className="w-4 h-4 text-lavender-400" />
-                      <span>{EDUCATION_DATA.institution}</span>
-                    </span>
-                    <span className="text-slate-500">•</span>
-                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded-full bg-lavender-400/15 text-lavender-300 border border-lavender-400/30">
-                      CGPA: {EDUCATION_DATA.cgpa}
-                    </span>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-lavender-300 mt-1">
+                    <Building className="w-4 h-4 text-lavender-400" />
+                    <span>{EDUCATION_DATA.institution}</span>
                   </div>
                 </div>
               </div>
