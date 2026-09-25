@@ -72,7 +72,7 @@ export default function Skills() {
                       <motion.div
                         key={skill.name}
                         whileHover={{ x: 4, transition: { duration: 0.15 } }}
-                        className="group flex flex-col p-2.5 rounded-xl bg-navy-850/60 hover:bg-navy-800/80 border border-white/[0.05] hover:border-lavender-400/30 transition-colors duration-150"
+                        className="group flex flex-col p-2.5 rounded-xl bg-slate-100/70 dark:bg-navy-850/60 hover:bg-lavender-50/80 dark:hover:bg-navy-800/80 border border-slate-200/80 dark:border-white/[0.05] hover:border-lavender-400/30 transition-colors duration-150"
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-semibold text-white group-hover:text-lavender-300 transition-colors">

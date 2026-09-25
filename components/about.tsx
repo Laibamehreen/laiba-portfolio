@@ -71,9 +71,9 @@ export default function About() {
                     <motion.div
                       key={strength}
                       whileHover={{ scale: 1.02, x: 2 }}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-navy-850/60 border border-lavender-400/15 text-xs text-slate-200 font-medium"
+                      className="flex items-center gap-2 p-2.5 rounded-xl bg-lavender-400/[0.08] dark:bg-navy-850/60 border border-lavender-400/20 dark:border-lavender-400/15 text-xs text-slate-800 dark:text-slate-200 font-medium shadow-sm transition-colors"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-lavender-500 dark:text-lavender-400 shrink-0" />
                       <span>{strength}</span>
                     </motion.div>
                   ))}

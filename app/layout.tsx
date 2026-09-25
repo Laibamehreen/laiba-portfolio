@@ -51,6 +51,13 @@ export const metadata: Metadata = {
     description:
       "BSCS student at COMSATS University with practical software engineering experience in Java, Spring Boot, REST APIs, database architecture, React, and Next.js.",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
