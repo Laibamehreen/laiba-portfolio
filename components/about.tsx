@@ -39,6 +39,7 @@ export default function About() {
     <ScrollRevealSection id="about" className="py-16 md:py-20 border-t border-white/[0.04]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
+
           title="About Me"
           subtitle="Software engineer dedicated to resilient backend systems, scalable APIs, and clean full-stack web applications."
         />
@@ -47,11 +48,14 @@ export default function About() {
           {/* Main Narrative Card */}
           <div className="lg:col-span-6 cv-card p-6 sm:p-8 flex flex-col justify-between h-full">
             <div>
-              <div className="mb-4">
+              <div className="flex items-center justify-between gap-3 mb-4">
                 <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-lavender-400" />
                   Software Engineer
                 </h3>
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-lavender-400/10 text-lavender-300 border border-lavender-400/20">
+                  {PROFILE_DATA.location}
+                </span>
               </div>
 
               <div className="text-slate-300 text-sm sm:text-base leading-relaxed">
@@ -71,9 +75,9 @@ export default function About() {
                     <motion.div
                       key={strength}
                       whileHover={{ scale: 1.02, x: 2 }}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-lavender-400/[0.08] dark:bg-navy-850/60 border border-lavender-400/20 dark:border-lavender-400/15 text-xs text-slate-800 dark:text-slate-200 font-medium shadow-sm transition-colors"
+                      className="flex items-center gap-2 p-2.5 rounded-xl bg-navy-850/60 border border-lavender-400/15 text-xs text-slate-200 font-medium"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-lavender-500 dark:text-lavender-400 shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
                       <span>{strength}</span>
                     </motion.div>
                   ))}
