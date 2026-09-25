@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShieldCheck, ExternalLink, Eye, Building2, Calendar } from "lucide-react";
+import { ShieldCheck, ExternalLink, Eye } from "lucide-react";
 import SectionHeading from "./section-heading";
 import ScrollRevealSection from "./scroll-reveal-section";
 import { CERTIFICATES_DATA, CertificateItem } from "@/data/certificates";
@@ -36,44 +35,32 @@ export default function Certificates() {
             >
               <div>
                 {/* Certificate Preview Frame with Real Document Thumbnail */}
+                {/* Certificate Preview Frame with Native PDF Thumbnail */}
                 <div
                   onClick={() => handleOpenCert(cert)}
-                  className="relative w-full h-56 sm:h-64 rounded-2xl mb-5 overflow-hidden bg-navy-950 border border-lavender-400/20 shadow-lg cursor-pointer group-hover:border-lavender-400/50 transition-all duration-300"
+                  className="relative w-full h-64 sm:h-72 rounded-2xl mb-5 overflow-hidden bg-slate-900 border border-lavender-400/20 shadow-lg cursor-pointer group-hover:border-lavender-400/50 transition-all duration-300"
                 >
-                  <Image
-                    src={cert.previewImage}
-                    alt={`${cert.title} preview`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 500px"
-                    className="object-contain object-top group-hover:scale-[1.03] transition-transform duration-300"
+                  <iframe
+                    src={`${cert.filePath}#toolbar=0&navpanes=0&scrollbar=0&view=FitH&page=1`}
+                    title={`${cert.title} PDF Preview`}
+                    scrolling="no"
+                    className="w-[calc(100%+20px)] h-full border-0 pointer-events-none select-none bg-white"
+                    loading="lazy"
                   />
 
-                  {/* Gradient Overlay for hover cues */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
-
-                  {/* Top Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-navy-950/80 backdrop-blur-md text-white border border-white/10">
-                      <Building2 className="w-3.5 h-3.5 text-lavender-400" />
-                      <span>{cert.organization}</span>
-                    </span>
-
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/20 backdrop-blur-md text-emerald-300 border border-emerald-500/30">
-                      <ShieldCheck className="w-3 h-3" />
-                      <span>Verified</span>
+                  {/* Subtle top-right credential badge */}
+                  <div className="absolute top-3 right-3 z-10 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-navy-950/85 backdrop-blur-md text-emerald-300 border border-emerald-500/30 shadow-sm">
+                      <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                      <span>Official PDF</span>
                     </span>
                   </div>
 
-                  {/* Click to Preview Indicator */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between z-10 text-xs text-slate-300">
-                    <span className="flex items-center gap-1.5 text-slate-300">
-                      <Calendar className="w-3.5 h-3.5 text-lavender-400" />
-                      <span>{cert.date}</span>
-                    </span>
-
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-lavender-400/20 backdrop-blur-md text-lavender-300 font-medium">
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>Click to View</span>
+                  {/* Hover Overlay with Centered View Button */}
+                  <div className="absolute inset-0 bg-navy-950/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center p-4 z-20">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-lavender-400 text-navy-950 text-xs sm:text-sm font-bold shadow-lavender-md transform scale-95 group-hover:scale-100 transition-transform duration-200">
+                      <Eye className="w-4 h-4" />
+                      <span>View Full Certificate</span>
                     </span>
                   </div>
                 </div>
