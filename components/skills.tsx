@@ -31,13 +31,17 @@ export default function Skills() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {SKILLS_DATA.map((category) => {
+          {SKILLS_DATA.map((category, idx) => {
             const Icon = getCategoryIcon(category.categoryKey);
             const isBackend = category.categoryKey === "backend";
 
             return (
               <motion.div
                 key={category.categoryKey}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className={`cv-card p-6 flex flex-col justify-between relative transition-shadow duration-300 hover:shadow-lavender-md ${
                   isBackend ? "md:col-span-1 md:row-span-1 border-lavender-400/30 shadow-lavender-sm" : ""

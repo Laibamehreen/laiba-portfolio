@@ -213,7 +213,13 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Introduction, Contact Info Cards & Social Links (5 Cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-6"
+          >
             {/* Professional Introduction */}
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium">
@@ -357,10 +363,16 @@ export default function Contact() {
                 </motion.a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Contact Message Form (7 Cols) */}
-          <div className="lg:col-span-7">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7"
+          >
             <div className="cv-card p-6 sm:p-8 relative">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-white mb-1.5 flex items-center gap-2">
@@ -579,7 +591,7 @@ export default function Contact() {
                 </div>
               </form>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </ScrollRevealSection>

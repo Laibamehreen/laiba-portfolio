@@ -60,20 +60,20 @@ export default function Hero() {
 
             {/* Name */}
             <motion.h1
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-3"
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-5 sm:mb-6"
             >
               <span className="tracking-wider uppercase">{PROFILE_DATA.fullName}</span>
             </motion.h1>
 
             {/* Title & Subtitle */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xl sm:text-2xl font-semibold text-lavender-300 mb-2"
+              transition={{ duration: 0.6, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xl sm:text-2xl font-semibold text-lavender-300 mb-3"
             >
               <span>{PROFILE_DATA.title}</span>
               <span className="text-slate-500">•</span>
@@ -82,19 +82,19 @@ export default function Hero() {
 
             {/* Introduction */}
             <motion.p
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed"
             >
               {PROFILE_DATA.intro}
             </motion.p>
 
-            {/* Main Action Buttons: Resume & Upwork */}
+            {/* Main Action Buttons: Resume & Connect Me */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8"
             >
               {/* Resume Direct Download Button */}

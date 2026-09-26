@@ -27,9 +27,13 @@ export default function Certificates() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          {CERTIFICATES_DATA.map((cert) => (
+          {CERTIFICATES_DATA.map((cert, idx) => (
             <motion.div
               key={cert.id}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6, transition: { duration: 0.2 } }}
               className="cv-card p-6 sm:p-7 flex flex-col justify-between group transition-shadow duration-300 hover:shadow-lavender-md h-full"
             >

@@ -18,9 +18,13 @@ export default function Experience() {
         />
 
         <div className="space-y-6">
-          {EXPERIENCE_DATA.map((exp) => (
+          {EXPERIENCE_DATA.map((exp, idx) => (
             <motion.div
               key={exp.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="cv-card p-6 sm:p-7 group hover:border-lavender-400/40 transition-all duration-200 hover:shadow-lavender-md"
             >
