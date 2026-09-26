@@ -85,7 +85,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-5 sm:mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4 sm:mb-5"
             >
               <span className="tracking-wider uppercase">{PROFILE_DATA.fullName}</span>
             </motion.h1>
@@ -95,11 +95,11 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xl sm:text-2xl font-semibold text-lavender-300 mb-3"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-base sm:text-lg md:text-xl font-semibold text-lavender-300 mb-3"
             >
               <span>{PROFILE_DATA.title}</span>
               <span className="text-slate-500">•</span>
-              <span className="text-slate-300 font-normal text-lg sm:text-xl">{PROFILE_DATA.roleSubtitle}</span>
+              <span className="text-slate-300 font-normal text-sm sm:text-base">{PROFILE_DATA.roleSubtitle}</span>
             </motion.div>
 
             {/* Introduction */}
@@ -107,7 +107,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed"
+              className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed"
             >
               {PROFILE_DATA.intro}
             </motion.p>
@@ -301,56 +301,6 @@ export default function Hero() {
 
                   {/* Subtle Cinematic Bottom Gradient Shadow */}
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent pointer-events-none" />
-
-                  {/* Verified Status Floating Badge inside frame bottom */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-navy-950/80 backdrop-blur-md text-slate-200 border border-white/10 shadow-sm">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>Available for hire</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-lavender-300/80 px-2 py-0.5 rounded-full bg-navy-950/70 border border-lavender-400/20 backdrop-blur-sm">
-                      Full-Stack
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Orbit Pill 1: Backend Architect (Top-Right) */}
-              <motion.div
-                animate={{
-                  y: [0, -8, 0],
-                  x: [0, 4, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -top-3.5 -right-4 sm:-right-6 z-20 pointer-events-none"
-              >
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0E1326]/90 backdrop-blur-xl border border-lavender-400/40 text-xs font-semibold text-lavender-300 shadow-xl shadow-black/40">
-                  <Sparkles className="w-3.5 h-3.5 text-lavender-400 fill-lavender-400/30" />
-                  <span className="text-[11px] tracking-wide">Java & Spring Boot</span>
-                </div>
-              </motion.div>
-
-              {/* Floating Orbit Pill 2: High Performance APIs (Bottom-Left) */}
-              <motion.div
-                animate={{
-                  y: [0, 8, 0],
-                  x: [0, -4, 0],
-                }}
-                transition={{
-                  duration: 4.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.8,
-                }}
-                className="absolute -bottom-3.5 -left-4 sm:-left-6 z-20 pointer-events-none"
-              >
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0E1326]/90 backdrop-blur-xl border border-lavender-400/40 text-xs font-semibold text-slate-200 shadow-xl shadow-black/40">
-                  <span className="w-2 h-2 rounded-full bg-lavender-400 animate-ping" />
-                  <span className="text-[11px] tracking-wide">REST APIs & DBs</span>
                 </div>
               </motion.div>
 
