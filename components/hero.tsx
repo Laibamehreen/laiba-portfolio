@@ -35,47 +35,72 @@ export default function Hero() {
   const heroSpotlightX = useSpring(heroMouseX, { damping: 28, stiffness: 180 });
   const heroSpotlightY = useSpring(heroMouseY, { damping: 28, stiffness: 180 });
 
+  // Cursor follow motion values for the profile photo
+  const cursorFollowX = useMotionValue(0);
+  const cursorFollowY = useMotionValue(0);
+
+  // Soft spring physics for delayed, smooth reactive follow without instant snapping
+  const followSpringConfig = { damping: 24, stiffness: 120, mass: 0.6 };
+
+  // Subtle cursor follow movement range: ±12px (within required 8px to 15px max)
+  // Cursor right (+X) -> photo moves right (+X)
+  // Cursor left (-X) -> photo moves left (-X)
+  // Cursor up (-Y) -> photo moves up (-Y)
+  // Cursor down (+Y) -> photo moves down (+Y)
+  const photoFollowX = useSpring(
+    useTransform(cursorFollowX, [-1, 1], [-12, 12]),
+    followSpringConfig
+  );
+  const photoFollowY = useSpring(
+    useTransform(cursorFollowY, [-1, 1], [-12, 12]),
+    followSpringConfig
+  );
+
+  // Extremely subtle 3D tilt: max 3deg (keeps photo almost flat when viewed normally)
+  const photoRotateX = useSpring(
+    useTransform(cursorFollowY, [-1, 1], [3, -3]),
+    followSpringConfig
+  );
+  const photoRotateY = useSpring(
+    useTransform(cursorFollowX, [-1, 1], [-3, 3]),
+    followSpringConfig
+  );
+
+  // Decorative element responsive offset
+  const decorFollowX = useSpring(
+    useTransform(cursorFollowX, [-1, 1], [-6, 6]),
+    followSpringConfig
+  );
+  const decorFollowY = useSpring(
+    useTransform(cursorFollowY, [-1, 1], [-6, 6]),
+    followSpringConfig
+  );
+
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const imageCardRef = useRef<HTMLDivElement>(null);
+
   const handleHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!heroRef.current || shouldReduceMotion) return;
     const rect = heroRef.current.getBoundingClientRect();
+    
+    // Ambient spotlight tracking
     heroMouseX.set(e.clientX - rect.left);
     heroMouseY.set(e.clientY - rect.top);
+
+    // Calculate normalized cursor position relative to hero center (-1 to 1)
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const normX = (e.clientX - centerX) / (rect.width / 2);
+    const normY = (e.clientY - centerY) / (rect.height / 2);
+
+    cursorFollowX.set(Math.max(-1, Math.min(1, normX)));
+    cursorFollowY.set(Math.max(-1, Math.min(1, normY)));
   };
 
-  // Interactive 3D Subtle Tilt & Image Proximity on Portrait
-  const imageCardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springConfig = { damping: 26, stiffness: 220 };
-
-  // Maximum rotation is very small (±6deg max) so it feels natural, not like a spinning card
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
-
-  // Moves a few pixels toward the cursor
-  const imageShiftX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), springConfig);
-  const imageShiftY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-5, 5]), springConfig);
-
-  // Decorative element responsive offset
-  const decorShiftX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
-  const decorShiftY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-8, 8]), springConfig);
-
-  const [isImageHovered, setIsImageHovered] = useState(false);
-
-  const handleImageMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageCardRef.current || shouldReduceMotion) return;
-    const rect = imageCardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
-    setIsImageHovered(true);
-  };
-
-  const handleImageMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setIsImageHovered(false);
+  const handleHeroMouseLeave = () => {
+    // Return to exact original neutral position when cursor leaves hero section
+    cursorFollowX.set(0);
+    cursorFollowY.set(0);
   };
 
   const handleResumeDownload = () => {
@@ -94,6 +119,7 @@ export default function Hero() {
     <section
       ref={heroRef}
       onMouseMove={handleHeroMouseMove}
+      onMouseLeave={handleHeroMouseLeave}
       className="relative pt-12 pb-16 md:pt-16 md:pb-24 overflow-hidden"
     >
       {/* Subtle Ambient Cursor Spotlight */}
@@ -341,139 +367,143 @@ export default function Hero() {
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.15 }}
               className="relative select-none"
             >
-              {/* Floating Decorative Elements (Behind profile image, subtle abstract motion) */}
-              {!shouldReduceMotion && (
-                <motion.div
-                  style={{ x: decorShiftX, y: decorShiftY }}
-                  className="absolute inset-0 pointer-events-none -z-10"
-                >
-                  {/* Tiny glowing dot (top-left) */}
-                  <motion.div
-                    animate={{
-                      y: [0, -8, 0],
-                      x: [0, 4, 0],
-                      opacity: [0.35, 0.75, 0.35],
-                    }}
-                    transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-4 -left-3 w-1.5 h-1.5 rounded-full bg-lavender-300/50 blur-[0.5px]"
-                  />
-
-                  {/* Small delicate circle (top-right) */}
-                  <motion.div
-                    animate={{
-                      y: [0, 6, 0],
-                      rotate: [0, 90, 180, 270, 360],
-                      opacity: [0.25, 0.45, 0.25],
-                    }}
-                    transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-5 -right-4 w-7 h-7 rounded-full border border-lavender-400/25"
-                  />
-
-                  {/* Very thin curved arc line (bottom-left) */}
-                  <motion.div
-                    animate={{
-                      rotate: [0, 12, -12, 0],
-                      opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -bottom-5 -left-4 w-10 h-10 pointer-events-none"
-                  >
-                    <svg className="w-full h-full text-lavender-400/30 stroke-current" viewBox="0 0 40 40" fill="none">
-                      <path d="M 6 34 A 26 26 0 0 1 34 6" strokeWidth="1" strokeDasharray="2 3" />
-                    </svg>
-                  </motion.div>
-
-                  {/* Soft gradient particle (bottom-right) */}
-                  <motion.div
-                    animate={{
-                      y: [0, -7, 0],
-                      opacity: [0.3, 0.65, 0.3],
-                    }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute -bottom-4 -right-3 w-2 h-2 rounded-full bg-indigo-300/40 blur-[0.5px]"
-                  />
-                </motion.div>
-              )}
-
-              {/* Soft Animated Glow that slowly travels/breathes around the edges */}
+              {/* Subtle Cursor Follow Wrapper: Smooth ±12px follow, ±3deg 3D tilt, pure transform */}
               <motion.div
-                animate={
-                  shouldReduceMotion
-                    ? undefined
-                    : {
-                        scale: isImageHovered ? 1.08 : [1, 1.06, 1],
-                        opacity: isImageHovered ? 0.65 : [0.3, 0.5, 0.3],
-                        rotate: [0, 180, 360],
-                      }
-                }
-                transition={{
-                  rotate: { duration: 18, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-                  opacity: { duration: 4.5, repeat: Infinity, ease: "easeInOut" },
-                }}
-                className="absolute -inset-7 rounded-full bg-gradient-to-tr from-lavender-400/30 via-indigo-500/15 to-purple-500/20 blur-2xl pointer-events-none -z-10"
-              />
-
-              {/* Animated Image Border: Slow subtle gradient continuously traveling around edge (No rainbow) */}
-              <motion.div
-                animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-                transition={{
-                  duration: 14,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-                className="absolute -inset-1 rounded-[2.1rem] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(167,139,250,0.35)_100deg,rgba(196,181,253,0.7)_180deg,rgba(129,140,248,0.35)_260deg,transparent_360deg)] opacity-70 blur-[1px] pointer-events-none"
-              />
-
-              {/* Interactive 3D Floating Tilt Card Frame (Natural, subtle tilt ±6deg & cursor shift) */}
-              <motion.div
-                ref={imageCardRef}
-                onMouseMove={handleImageMouseMove}
-                onMouseLeave={handleImageMouseLeave}
                 style={
                   shouldReduceMotion
                     ? undefined
                     : {
-                        rotateX,
-                        rotateY,
-                        x: imageShiftX,
-                        y: imageShiftY,
+                        x: photoFollowX,
+                        y: photoFollowY,
+                        rotateX: photoRotateX,
+                        rotateY: photoRotateY,
                         transformStyle: "preserve-3d",
                       }
                 }
-                animate={
-                  shouldReduceMotion
-                    ? undefined
-                    : {
-                        y: [0, -8, 0],
-                        rotateZ: [0, 0.5, -0.5, 0],
-                      }
-                }
-                transition={{
-                  duration: 6.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="relative w-64 h-76 sm:w-72 sm:h-84 md:w-80 md:h-[26rem] rounded-3xl p-1 bg-gradient-to-b from-lavender-400/30 via-lavender-500/15 to-transparent shadow-xl shadow-lavender-400/15 cursor-pointer group"
+                className="relative"
               >
-                {/* Inner Clipping Viewport */}
-                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/10 shadow-inner">
-                  {/* Portrait Image with Smooth Subtle Scale Lift */}
-                  <Image
-                    src={PROFILE_DATA.image}
-                    alt={PROFILE_DATA.fullName}
-                    fill
-                    unoptimized
-                    priority
-                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-104"
-                  />
+                {/* Floating Decorative Elements (Behind profile image, subtle abstract motion) */}
+                {!shouldReduceMotion && (
+                  <motion.div
+                    style={{ x: decorFollowX, y: decorFollowY }}
+                    className="absolute inset-0 pointer-events-none -z-10"
+                  >
+                    {/* Tiny glowing dot (top-left) */}
+                    <motion.div
+                      animate={{
+                        y: [0, -8, 0],
+                        x: [0, 4, 0],
+                        opacity: [0.35, 0.75, 0.35],
+                      }}
+                      transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute -top-4 -left-3 w-1.5 h-1.5 rounded-full bg-lavender-300/50 blur-[0.5px]"
+                    />
 
-                  {/* Subtle Specular Sheen on Hover */}
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 pointer-events-none z-10" />
+                    {/* Small delicate circle (top-right) */}
+                    <motion.div
+                      animate={{
+                        y: [0, 6, 0],
+                        rotate: [0, 90, 180, 270, 360],
+                        opacity: [0.25, 0.45, 0.25],
+                      }}
+                      transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute -top-5 -right-4 w-7 h-7 rounded-full border border-lavender-400/25"
+                    />
 
-                  {/* Subtle Cinematic Bottom Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent pointer-events-none" />
-                </div>
+                    {/* Very thin curved arc line (bottom-left) */}
+                    <motion.div
+                      animate={{
+                        rotate: [0, 12, -12, 0],
+                        opacity: [0.2, 0.4, 0.2],
+                      }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute -bottom-5 -left-4 w-10 h-10 pointer-events-none"
+                    >
+                      <svg className="w-full h-full text-lavender-400/30 stroke-current" viewBox="0 0 40 40" fill="none">
+                        <path d="M 6 34 A 26 26 0 0 1 34 6" strokeWidth="1" strokeDasharray="2 3" />
+                      </svg>
+                    </motion.div>
+
+                    {/* Soft gradient particle (bottom-right) */}
+                    <motion.div
+                      animate={{
+                        y: [0, -7, 0],
+                        opacity: [0.3, 0.65, 0.3],
+                      }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                      className="absolute -bottom-4 -right-3 w-2 h-2 rounded-full bg-indigo-300/40 blur-[0.5px]"
+                    />
+                  </motion.div>
+                )}
+
+                {/* Soft Animated Glow that slowly travels/breathes around the edges */}
+                <motion.div
+                  animate={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          scale: isImageHovered ? 1.08 : [1, 1.06, 1],
+                          opacity: isImageHovered ? 0.65 : [0.3, 0.5, 0.3],
+                          rotate: [0, 180, 360],
+                        }
+                  }
+                  transition={{
+                    rotate: { duration: 18, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                    opacity: { duration: 4.5, repeat: Infinity, ease: "easeInOut" },
+                  }}
+                  className="absolute -inset-7 rounded-full bg-gradient-to-tr from-lavender-400/30 via-indigo-500/15 to-purple-500/20 blur-2xl pointer-events-none -z-10"
+                />
+
+                {/* Animated Image Border: Slow subtle gradient continuously traveling around edge (No rainbow) */}
+                <motion.div
+                  animate={shouldReduceMotion ? undefined : { rotate: 360 }}
+                  transition={{
+                    duration: 14,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="absolute -inset-1 rounded-[2.1rem] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(167,139,250,0.35)_100deg,rgba(196,181,253,0.7)_180deg,rgba(129,140,248,0.35)_260deg,transparent_360deg)] opacity-70 blur-[1px] pointer-events-none"
+                />
+
+                {/* Interactive Profile Photo Card Frame with Ambient Float */}
+                <motion.div
+                  ref={imageCardRef}
+                  onMouseEnter={() => setIsImageHovered(true)}
+                  onMouseLeave={() => setIsImageHovered(false)}
+                  animate={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          y: [0, -6, 0],
+                        }
+                  }
+                  transition={{
+                    duration: 6.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative w-64 h-76 sm:w-72 sm:h-84 md:w-80 md:h-[26rem] rounded-3xl p-1 bg-gradient-to-b from-lavender-400/30 via-lavender-500/15 to-transparent shadow-xl shadow-lavender-400/15 cursor-pointer group"
+                >
+                  {/* Inner Clipping Viewport */}
+                  <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/10 shadow-inner">
+                    {/* Portrait Image with Smooth Subtle Scale Lift */}
+                    <Image
+                      src={PROFILE_DATA.image}
+                      alt={PROFILE_DATA.fullName}
+                      fill
+                      unoptimized
+                      priority
+                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-104"
+                    />
+
+                    {/* Subtle Specular Sheen on Hover */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 pointer-events-none z-10" />
+
+                    {/* Subtle Cinematic Bottom Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           </div>
