@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "@/components/navbar";
 import ScrollProgress from "@/components/scroll-progress";
+import CommandPalette from "@/components/command-palette";
 import Hero from "@/components/hero";
 import About from "@/components/about";
 import Skills from "@/components/skills";
@@ -16,6 +17,9 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] transition-colors duration-300">
       {/* Top Scroll Progress Bar */}
       <ScrollProgress />
+
+      {/* Headless Command Palette (⌘K / Ctrl+K) */}
+      <CommandPalette showTrigger={false} />
 
       {/* Sticky Minimal Navbar */}
       <Navbar />

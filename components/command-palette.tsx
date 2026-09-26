@@ -37,7 +37,11 @@ interface CommandItem {
   badge?: string;
 }
 
-export default function CommandPalette() {
+interface CommandPaletteProps {
+  showTrigger?: boolean;
+}
+
+export default function CommandPalette({ showTrigger = false }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -274,22 +278,24 @@ export default function CommandPalette() {
 
   return (
     <>
-      {/* Floating or Navbar Quick Access Trigger Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        aria-label="Open Command Palette (Ctrl+K)"
-        title="Open Command Palette (Ctrl+K)"
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium 
-          bg-white/[0.05] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/40 
-          text-slate-300 hover:text-white transition-all duration-200 cursor-pointer shadow-sm group"
-      >
-        <Search className="w-3.5 h-3.5 text-lavender-400 group-hover:scale-110 transition-transform" />
-        <span className="hidden sm:inline text-slate-400 group-hover:text-slate-200">Search commands</span>
-        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-lavender-300 border border-white/10 font-bold">
-          ⌘K
-        </span>
-      </button>
+      {/* Optional Trigger Button */}
+      {showTrigger && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-label="Open Command Palette (Ctrl+K)"
+          title="Open Command Palette (Ctrl+K)"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium 
+            bg-white/[0.05] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/40 
+            text-slate-300 hover:text-white transition-all duration-200 cursor-pointer shadow-sm group"
+        >
+          <Search className="w-3.5 h-3.5 text-lavender-400 group-hover:scale-110 transition-transform" />
+          <span className="hidden sm:inline text-slate-400 group-hover:text-slate-200">Search commands</span>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-lavender-300 border border-white/10 font-bold">
+            ⌘K
+          </span>
+        </button>
+      )}
 
       {/* Glassmorphic Command Palette Modal */}
       <AnimatePresence>
