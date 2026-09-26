@@ -26,7 +26,7 @@ export default function ScrollRevealSection({
         duration: 0.7,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className={`scroll-mt-20 sm:scroll-mt-24 ${className}`}
+      className={`relative scroll-mt-20 sm:scroll-mt-24 ${className}`}
     >
       {children}
     </motion.section>

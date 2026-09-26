@@ -24,7 +24,7 @@ export default function Home() {
       <Navbar />
 
       {/* Main Single Page CV Sections */}
-      <main className="flex-grow">
+      <main className="relative flex-grow">
         {/* Hero Section */}
         <Hero />
 

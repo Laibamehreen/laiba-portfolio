@@ -20,7 +20,7 @@ export default function Experience() {
 
   return (
     <ScrollRevealSection id="experience" className="py-16 md:py-20 border-t border-white/[0.04]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="Work Experience"
           title="Professional Experience"
