@@ -189,55 +189,11 @@ export default function Projects() {
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-lavender-400/[0.04] rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading with Dynamic Right Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
-          <div className="max-w-2xl">
-            <SectionHeading
-              badge="Horizontal Showcase"
-              title="Featured Projects & Systems"
-              subtitle="An interactive horizontal gallery of enterprise backend systems, full stack applications, AI assistants, and production web platforms."
-            />
-          </div>
-
-          {/* Desktop Carousel Controls & Indicator */}
-          <div className="hidden sm:flex items-center gap-4 self-end pb-4">
-            {/* Active Position Indicator */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-slate-300 backdrop-blur-md">
-              <span className="text-lavender-300 font-bold">
-                {String(activeIndex + 1).padStart(2, "0")}
-              </span>
-              <span className="text-slate-500">/</span>
-              <span>{String(filteredProjects.length).padStart(2, "0")}</span>
-            </div>
-
-            {/* Navigation Arrow Buttons */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => scroll("left")}
-                disabled={!canScrollLeft}
-                aria-label="Scroll left to previous project"
-                title="Previous Project"
-                className="h-10 w-10 rounded-full border-white/10 bg-white/[0.04] hover:bg-lavender-400/20 hover:border-lavender-400/50 hover:text-white disabled:opacity-30 disabled:hover:bg-white/[0.04] transition-all"
-              >
-                <ChevronLeft className="w-5 h-5 text-slate-200" />
-              </Button>
-
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => scroll("right")}
-                disabled={!canScrollRight}
-                aria-label="Scroll right to next project"
-                title="Next Project"
-                className="h-10 w-10 rounded-full border-white/10 bg-white/[0.04] hover:bg-lavender-400/20 hover:border-lavender-400/50 hover:text-white disabled:opacity-30 disabled:hover:bg-white/[0.04] transition-all"
-              >
-                <ChevronRight className="w-5 h-5 text-slate-200" />
-              </Button>
-            </div>
-          </div>
-        </div>
+        {/* Centered Section Heading (Without Horizontal Showcase badge) */}
+        <SectionHeading
+          title="Featured Projects & Systems"
+          subtitle="An interactive horizontal gallery of enterprise backend systems, full stack applications, AI assistants, and production web platforms."
+        />
 
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center justify-start sm:justify-center gap-2 mb-8 no-print overflow-x-auto pb-2 no-scrollbar">
@@ -319,11 +275,11 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Bottom Minimal Dots & Mobile Navigation */}
+      {/* Bottom Minimal Dots & Navigation Controls */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 mt-4">
-        <div className="flex items-center justify-center sm:justify-between gap-4 pt-4 border-t border-white/[0.04]">
+        <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/[0.04]">
           {/* Direct Jump Pill Dots */}
-          <div className="flex items-center gap-1.5 mx-auto sm:mx-0">
+          <div className="flex items-center gap-1.5">
             {filteredProjects.map((project, idx) => (
               <button
                 key={project.id}
@@ -339,14 +295,14 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* Mobile Navigation Buttons */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Navigation Buttons (Desktop & Mobile) */}
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
-              className="rounded-xl px-3 py-1.5 text-xs border-white/10"
+              className="rounded-xl px-3 py-1.5 text-xs border-white/10 hover:border-lavender-400/40 text-slate-300 hover:text-white"
             >
               <ChevronLeft className="w-4 h-4 mr-1" />
               Prev
@@ -356,7 +312,7 @@ export default function Projects() {
               size="sm"
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
-              className="rounded-xl px-3 py-1.5 text-xs border-white/10"
+              className="rounded-xl px-3 py-1.5 text-xs border-white/10 hover:border-lavender-400/40 text-slate-300 hover:text-white"
             >
               Next
               <ChevronRight className="w-4 h-4 ml-1" />
