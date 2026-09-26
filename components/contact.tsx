@@ -200,80 +200,101 @@ export default function Contact() {
 
   return (
     <ScrollRevealSection id="contact" className="py-16 md:py-24 border-t border-white/[0.04] relative overflow-hidden">
-      {/* Subtle Bottom Ambient Glow Accent */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-lavender-400/[0.05] rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* Ambient Glow Accents */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-lavender-400/[0.04] rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[350px] bg-indigo-500/[0.04] rounded-full blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Centered Heading of Contact Section */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Centered Heading */}
         <SectionHeading
-          badge="Get In Touch"
+          badge="Contact"
           title="Let's Connect"
-          subtitle="I'm open to software development opportunities, internships, freelance projects, and meaningful collaborations."
+          subtitle="Have a project in mind or want to explore working together? Drop a message below."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        {/* 2-Column Responsive Layout: Left 40% (2 cols), Right 60% (3 cols), 48px gap */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-stretch">
           
-          {/* Left Column: Direct Channels (Centered, No Container) */}
+          {/* Left Column: Contact Information (40%, No Container) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col items-center justify-center text-center space-y-5 py-4 self-center"
+            className="lg:col-span-2 flex flex-col justify-between py-2 sm:py-4"
           >
-            {/* Email and Location (Minimal 6px Spacing, Perfectly Centered) */}
-            <div className="flex flex-col items-center justify-center space-y-2 text-center w-full">
-              {/* Email */}
-              <div className="inline-flex items-center gap-2">
-                <Mail className="w-4 h-4 text-lavender-400 shrink-0" />
-                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-                  Email:
-                </span>
-                <a
-                  href="mailto:laibamehreenk@gmail.com"
-                  title="Email laibamehreenk@gmail.com"
-                  className="text-sm sm:text-base font-medium text-white hover:text-lavender-300 transition-colors"
-                >
-                  laibamehreenk@gmail.com
-                </a>
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  title={copied ? "Copied!" : "Copy email address"}
-                  aria-label="Copy email address"
-                  className="p-1 rounded text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
-                >
-                  {copied ? (
-                    <span className="inline-flex items-center text-xs text-emerald-400 font-medium">
-                      <Check className="w-3.5 h-3.5" />
-                    </span>
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
-                </button>
+            <div>
+              {/* Header */}
+              <div className="mb-8">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+                  Get In Touch
+                </h3>
+                <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+                  Feel free to reach out for internships, freelance work, collaborations, or software development opportunities.
+                </p>
               </div>
 
-              {/* Location */}
-              <div className="inline-flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-lavender-400 shrink-0" />
-                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-                  Location:
-                </span>
-                <span className="text-sm sm:text-base font-medium text-white">
-                  Punjab, Pakistan
-                </span>
+              {/* Info: Email & Location (Free-standing, no separate container) */}
+              <div className="space-y-6 mb-8">
+                {/* Email Item */}
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-1">
+                      Email
+                    </span>
+                    <div className="inline-flex items-center gap-2">
+                      <a
+                        href="mailto:laibamehreenk@gmail.com"
+                        title="Email laibamehreenk@gmail.com"
+                        className="text-base sm:text-lg font-medium text-white hover:text-lavender-300 transition-colors"
+                      >
+                        laibamehreenk@gmail.com
+                      </a>
+                      <button
+                        type="button"
+                        onClick={handleCopyEmail}
+                        title={copied ? "Copied!" : "Copy email address"}
+                        aria-label="Copy email address"
+                        className="p-1 rounded text-slate-400 hover:text-lavender-300 hover:bg-white/[0.08] transition-colors shrink-0 cursor-pointer"
+                      >
+                        {copied ? (
+                          <span className="inline-flex items-center text-xs text-emerald-400 font-medium">
+                            <Check className="w-3.5 h-3.5" />
+                          </span>
+                        ) : (
+                          <Copy className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Location Item */}
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-1">
+                      Location
+                    </span>
+                    <p className="text-base sm:text-lg font-medium text-white">
+                      Punjab, Pakistan
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Subtle Divider */}
-            <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-            {/* Connect Online Section (Centered) */}
-            <div className="flex flex-col items-center text-center space-y-3 w-full">
-              <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+            {/* Social Links Section */}
+            <div className="pt-6 border-t border-white/[0.08]">
+              <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-3.5">
                 Connect Online
               </span>
-              <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <motion.a
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -282,7 +303,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label="GitHub Profile"
                   title="GitHub Profile"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
                 >
                   <Github className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
                   <span>GitHub</span>
@@ -296,7 +317,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label="LinkedIn Profile"
                   title="LinkedIn Profile"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
                 >
                   <Linkedin className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
                   <span>LinkedIn</span>
@@ -310,7 +331,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label="Upwork Profile"
                   title="Upwork Profile"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
                 >
                   <UpworkIcon className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
                   <span>Upwork</span>
@@ -319,236 +340,238 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Right Column: Contact Message Form (7 Cols) */}
+          {/* Right Column: Contact Message Form (60%) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7"
+            className="lg:col-span-3 h-full"
           >
-            <div className="relative group">
+            <div className="relative group h-full">
               {/* Lighting Edge Glow Accent */}
               <div className="absolute -inset-[1px] rounded-[1.35rem] bg-gradient-to-br from-lavender-400/40 via-purple-500/25 to-indigo-500/35 opacity-70 group-hover:opacity-100 blur-[2px] transition-opacity duration-500 pointer-events-none" />
 
-              <div className="cv-card p-6 sm:p-8 relative border border-lavender-400/25 group-hover:border-lavender-400/45 shadow-[0_0_30px_rgba(167,139,250,0.12)] transition-all duration-300">
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-1.5 flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-lavender-400" />
-                  <span>Send a Message</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-400">
-                  Fill in your details below and I will get back to you as soon as possible.
-                </p>
+              <div className="cv-card p-6 sm:p-8 rounded-[1.35rem] relative border border-lavender-400/25 group-hover:border-lavender-400/45 shadow-[0_0_30px_rgba(167,139,250,0.12)] transition-all duration-300 h-full flex flex-col justify-between">
+                <div>
+                  <div className="mb-6">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                      <MessageSquare className="w-5 h-5 text-lavender-400" />
+                      <span>Send a Message</span>
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                      Fill in your details below and I will get back to you as soon as possible.
+                    </p>
+                  </div>
+
+                  {/* Success Notification */}
+                  <AnimatePresence>
+                    {status === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-start gap-3"
+                      >
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="text-sm font-semibold text-emerald-300">Message Delivered</h4>
+                          <p className="text-xs text-emerald-200/90 mt-0.5 leading-relaxed">
+                            {statusMessage}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Error Notification */}
+                  <AnimatePresence>
+                    {status === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-start gap-3"
+                      >
+                        <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="text-sm font-semibold text-rose-300">Notice</h4>
+                          <p className="text-xs text-rose-200/90 mt-0.5 leading-relaxed">
+                            {statusMessage}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                    {/* Name & Email Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Name Field */}
+                      <div>
+                        <label
+                          htmlFor="contact-name"
+                          className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+                        >
+                          Your Name <span className="text-lavender-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <User className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="text"
+                            id="contact-name"
+                            name="name"
+                            value={formData.name}
+                            onChange={(e) => handleChange("name", e.target.value)}
+                            onBlur={() => handleBlur("name")}
+                            disabled={status === "submitting"}
+                            placeholder="John Doe"
+                            className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
+                              errors.name && touched.name
+                                ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
+                                : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                          />
+                        </div>
+                        {errors.name && touched.name && (
+                          <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3 shrink-0" />
+                            <span>{errors.name}</span>
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Email Field */}
+                      <div>
+                        <label
+                          htmlFor="contact-email"
+                          className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+                        >
+                          Email Address <span className="text-lavender-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <AtSign className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="email"
+                            id="contact-email"
+                            name="email"
+                            value={formData.email}
+                            onChange={(e) => handleChange("email", e.target.value)}
+                            onBlur={() => handleBlur("email")}
+                            disabled={status === "submitting"}
+                            placeholder="visitor@example.com"
+                            className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
+                              errors.email && touched.email
+                                ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
+                                : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                          />
+                        </div>
+                        {errors.email && touched.email && (
+                          <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3 shrink-0" />
+                            <span>{errors.email}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Subject Field */}
+                    <div>
+                      <label
+                        htmlFor="contact-subject"
+                        className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+                      >
+                        Subject <span className="text-lavender-400">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <Tag className="w-4 h-4" />
+                        </div>
+                        <input
+                          type="text"
+                          id="contact-subject"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={(e) => handleChange("subject", e.target.value)}
+                          onBlur={() => handleBlur("subject")}
+                          disabled={status === "submitting"}
+                          placeholder="Software Engineer Role / Project Inquiry"
+                          className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
+                            errors.subject && touched.subject
+                              ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
+                              : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
+                          } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        />
+                      </div>
+                      {errors.subject && touched.subject && (
+                        <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          <span>{errors.subject}</span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Message Field */}
+                    <div>
+                      <label
+                        htmlFor="contact-message"
+                        className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+                      >
+                        Message <span className="text-lavender-400">*</span>
+                      </label>
+                      <textarea
+                        id="contact-message"
+                        name="message"
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => handleChange("message", e.target.value)}
+                        onBlur={() => handleBlur("message")}
+                        disabled={status === "submitting"}
+                        placeholder="Your message here..."
+                        className={`w-full p-3.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/50 transition-colors outline-none resize-none leading-relaxed ${
+                          errors.message && touched.message
+                            ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
+                            : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                      />
+                      {errors.message && touched.message && (
+                        <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          <span>{errors.message}</span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Action / Submit */}
+                    <div className="pt-2 flex justify-end">
+                      <motion.button
+                        whileHover={{ scale: status === "submitting" ? 1 : 1.02 }}
+                        whileTap={{ scale: status === "submitting" ? 1 : 0.98 }}
+                        type="submit"
+                        disabled={status === "submitting"}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-lavender-400 hover:bg-lavender-300 text-navy-950 transition-all duration-200 shadow-lavender-sm hover:shadow-lavender-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        {status === "submitting" ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-navy-950" />
+                            <span>Sending Message...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4 text-navy-950" />
+                            <span>Send Message</span>
+                          </>
+                        )}
+                      </motion.button>
+                    </div>
+                  </form>
+                </div>
               </div>
-
-              {/* Success Notification */}
-              <AnimatePresence>
-                {status === "success" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-start gap-3"
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-sm font-semibold text-emerald-300">Message Delivered</h4>
-                      <p className="text-xs text-emerald-200/90 mt-0.5 leading-relaxed">
-                        {statusMessage}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Error Notification */}
-              <AnimatePresence>
-                {status === "error" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-start gap-3"
-                  >
-                    <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-sm font-semibold text-rose-300">Notice</h4>
-                      <p className="text-xs text-rose-200/90 mt-0.5 leading-relaxed">
-                        {statusMessage}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                {/* Name & Email Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name Field */}
-                  <div>
-                    <label
-                      htmlFor="contact-name"
-                      className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
-                    >
-                      Your Name <span className="text-lavender-400">*</span>
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                        <User className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="text"
-                        id="contact-name"
-                        name="name"
-                        value={formData.name}
-                        onChange={(e) => handleChange("name", e.target.value)}
-                        onBlur={() => handleBlur("name")}
-                        disabled={status === "submitting"}
-                        placeholder="John Doe"
-                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
-                          errors.name && touched.name
-                            ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
-                            : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      />
-                    </div>
-                    {errors.name && touched.name && (
-                      <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" />
-                        <span>{errors.name}</span>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Email Field */}
-                  <div>
-                    <label
-                      htmlFor="contact-email"
-                      className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
-                    >
-                      Email Address <span className="text-lavender-400">*</span>
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                        <AtSign className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="email"
-                        id="contact-email"
-                        name="email"
-                        value={formData.email}
-                        onChange={(e) => handleChange("email", e.target.value)}
-                        onBlur={() => handleBlur("email")}
-                        disabled={status === "submitting"}
-                        placeholder="visitor@example.com"
-                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
-                          errors.email && touched.email
-                            ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
-                            : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                      />
-                    </div>
-                    {errors.email && touched.email && (
-                      <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" />
-                        <span>{errors.email}</span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Subject Field */}
-                <div>
-                  <label
-                    htmlFor="contact-subject"
-                    className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
-                  >
-                    Subject <span className="text-lavender-400">*</span>
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                      <Tag className="w-4 h-4" />
-                    </div>
-                    <input
-                      type="text"
-                      id="contact-subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={(e) => handleChange("subject", e.target.value)}
-                      onBlur={() => handleBlur("subject")}
-                      disabled={status === "submitting"}
-                      placeholder="Software Engineer Role / Project Inquiry"
-                      className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
-                        errors.subject && touched.subject
-                          ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
-                          : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
-                      } disabled:opacity-50 disabled:cursor-not-allowed`}
-                    />
-                  </div>
-                  {errors.subject && touched.subject && (
-                    <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3 shrink-0" />
-                      <span>{errors.subject}</span>
-                    </p>
-                  )}
-                </div>
-
-                {/* Message Field */}
-                <div>
-                  <label
-                    htmlFor="contact-message"
-                    className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
-                  >
-                    Message <span className="text-lavender-400">*</span>
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => handleChange("message", e.target.value)}
-                    onBlur={() => handleBlur("message")}
-                    disabled={status === "submitting"}
-                    placeholder="Your message here..."
-                    className={`w-full p-3.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/50 transition-colors outline-none resize-none leading-relaxed ${
-                      errors.message && touched.message
-                        ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
-                        : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
-                  />
-                  {errors.message && touched.message && (
-                    <p className="text-[11px] text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3 shrink-0" />
-                      <span>{errors.message}</span>
-                    </p>
-                  )}
-                </div>
-
-                {/* Action / Submit */}
-                <div className="pt-2 flex justify-end">
-                  <motion.button
-                    whileHover={{ scale: status === "submitting" ? 1 : 1.02 }}
-                    whileTap={{ scale: status === "submitting" ? 1 : 0.98 }}
-                    type="submit"
-                    disabled={status === "submitting"}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-lavender-400 hover:bg-lavender-300 text-navy-950 transition-all duration-200 shadow-lavender-sm hover:shadow-lavender-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-                  >
-                    {status === "submitting" ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin text-navy-950" />
-                        <span>Sending Message...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4 text-navy-950" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </motion.button>
-                </div>
-              </form>
-            </div>
             </div>
           </motion.div>
         </div>
