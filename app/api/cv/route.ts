@@ -35,7 +35,7 @@ export async function GET() {
     );
   }
 
-  return new NextResponse(result.buffer, {
+  return new NextResponse(new Uint8Array(result.buffer), {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",

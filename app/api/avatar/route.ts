@@ -24,7 +24,7 @@ export async function GET() {
       const fileBuffer = fs.readFileSync(resolvedPath);
       const isJpeg = fileBuffer[0] === 0xFF && fileBuffer[1] === 0xD8;
       const contentType = isJpeg ? "image/jpeg" : "image/png";
-      return new NextResponse(fileBuffer, {
+      return new NextResponse(new Uint8Array(fileBuffer), {
         headers: {
           "Content-Type": contentType,
           "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
