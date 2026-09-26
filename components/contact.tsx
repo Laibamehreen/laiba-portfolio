@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
   MapPin,
-  Briefcase,
   Github,
   Linkedin,
   Copy,
@@ -19,7 +18,6 @@ import {
   Tag,
   MessageSquare,
 } from "lucide-react";
-import SectionHeading from "./section-heading";
 import ScrollRevealSection from "./scroll-reveal-section";
 import { PROFILE_DATA } from "@/data/profile";
 
@@ -201,168 +199,177 @@ export default function Contact() {
 
   return (
     <ScrollRevealSection id="contact" className="py-16 md:py-24 border-t border-white/[0.04] relative overflow-hidden">
-      {/* Subtle Bottom Glow Accent */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-lavender-400/[0.06] rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* Subtle Bottom Ambient Glow Accent */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-lavender-400/[0.05] rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          badge="Get In Touch"
-          title="Let's Connect"
-          subtitle="I'm open to software development opportunities, internships, freelance projects, and technical collaboration."
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Introduction, Contact Info Cards & Social Links (5 Cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Let's Connect, Intro, Minimalist Info Rows & Socials (5 Cols) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 space-y-6"
+            className="lg:col-span-5 flex flex-col justify-center space-y-7"
           >
-            {/* Professional Introduction */}
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium">
+            {/* Header & Single Concise Introduction */}
+            <div className="space-y-3">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium"
+              >
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Open for Collaboration</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                Let's discuss an opportunity
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Have a project in mind or want to discuss an opportunity? Feel free to reach out.
-              </p>
+              </motion.div>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.05 }}
+                className="text-3xl sm:text-4xl font-bold tracking-tight text-white"
+              >
+                Let&apos;s Connect
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.1 }}
+                className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-md"
+              >
+                I&apos;m open to software development opportunities, internships, freelance projects, and meaningful collaborations.
+              </motion.p>
             </div>
 
-            {/* Contact Information Cards */}
-            <div className="space-y-3.5">
-              {/* Email Card */}
+            {/* Clean Minimalist Information Rows (No heavy cards) */}
+            <div className="space-y-4 pt-2">
+              {/* Email Row */}
               <motion.div
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-                className="cv-card p-4 sm:p-5 transition-all duration-200 hover:border-lavender-400/40 hover:shadow-lavender-sm group"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="flex items-center justify-between gap-4 p-3 -mx-3 rounded-xl hover:bg-white/[0.03] transition-colors group"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-3.5 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
-                    <Mail className="w-5 h-5" />
+                    <Mail className="w-4 h-4" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-1">
+                  <div className="min-w-0">
+                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">
                       Email
                     </span>
                     <a
                       href="mailto:laibamehreenk@gmail.com"
-                      title="Open your email client to email laibamehreenk@gmail.com"
-                      className="text-sm sm:text-base font-semibold text-white hover:text-lavender-300 transition-colors break-all block"
+                      title="Email laibamehreenk@gmail.com"
+                      className="text-sm sm:text-base font-medium text-white hover:text-lavender-300 transition-colors break-all block truncate"
                     >
                       laibamehreenk@gmail.com
                     </a>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleCopyEmail}
-                    title="Copy email address"
-                    className="p-2 rounded-lg text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0"
-                    aria-label="Copy email address"
-                  >
-                    {copied ? (
-                      <Check className="w-4 h-4 text-emerald-400" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </button>
                 </div>
+
+                {/* Email Copy Action Button */}
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  title="Copy email address"
+                  className="p-2 rounded-lg text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
+                  aria-label="Copy email address"
+                >
+                  {copied ? (
+                    <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
+                      <Check className="w-4 h-4" />
+                    </span>
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </button>
               </motion.div>
 
-              {/* Location Card */}
+              {/* Location Row */}
               <motion.div
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-                className="cv-card p-4 sm:p-5 transition-all duration-200 hover:border-lavender-400/40 hover:shadow-lavender-sm group"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="flex items-center gap-3.5 p-3 -mx-3 rounded-xl hover:bg-white/[0.03] transition-colors group"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-1">
-                      Location
-                    </span>
-                    <p className="text-sm sm:text-base font-semibold text-white">
-                      Punjab, Pakistan
-                    </p>
-                  </div>
+                <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
+                  <MapPin className="w-4 h-4" />
                 </div>
-              </motion.div>
-
-              {/* Availability Card */}
-              <motion.div
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-                className="cv-card p-4 sm:p-5 transition-all duration-200 hover:border-lavender-400/40 hover:shadow-lavender-sm group"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
-                    <Briefcase className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-1">
-                      Availability
-                    </span>
-                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-                      Open to internships, freelance projects, and software engineering opportunities
-                    </p>
-                  </div>
+                <div>
+                  <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">
+                    Location
+                  </span>
+                  <p className="text-sm sm:text-base font-medium text-white">
+                    Punjab, Pakistan
+                  </p>
                 </div>
               </motion.div>
             </div>
 
-            {/* Social Links Row */}
-            <div className="pt-2">
+            {/* Social Links Directly Underneath */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+              className="pt-4 border-t border-white/[0.06]"
+            >
               <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-3">
-                Professional Profiles
+                Connect Online
               </span>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <motion.a
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   href={PROFILE_DATA.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub Profile"
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl cv-card hover:border-lavender-400/40 text-slate-300 hover:text-white transition-all text-xs sm:text-sm font-semibold group shadow-sm"
+                  title="GitHub Profile"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
                 >
-                  <Github className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 shrink-0 transition-colors" />
+                  <Github className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
                   <span>GitHub</span>
                 </motion.a>
 
                 <motion.a
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   href={PROFILE_DATA.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn Profile"
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl cv-card hover:border-lavender-400/40 text-slate-300 hover:text-white transition-all text-xs sm:text-sm font-semibold group shadow-sm"
+                  title="LinkedIn Profile"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
                 >
-                  <Linkedin className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 shrink-0 transition-colors" />
+                  <Linkedin className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
                   <span>LinkedIn</span>
                 </motion.a>
 
                 <motion.a
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://www.upwork.com/freelancers/~01649656063f558079"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Upwork Profile"
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl cv-card hover:border-lavender-400/40 text-slate-300 hover:text-white transition-all text-xs sm:text-sm font-semibold group shadow-sm"
+                  title="Upwork Profile"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
                 >
-                  <UpworkIcon className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 shrink-0 transition-colors" />
+                  <UpworkIcon className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
                   <span>Upwork</span>
                 </motion.a>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Right Column: Contact Message Form (7 Cols) */}
@@ -448,7 +455,7 @@ export default function Contact() {
                         onBlur={() => handleBlur("name")}
                         disabled={status === "submitting"}
                         placeholder="John Doe"
-                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500 transition-colors outline-none ${
+                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
                           errors.name && touched.name
                             ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
                             : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
@@ -484,7 +491,7 @@ export default function Contact() {
                         onBlur={() => handleBlur("email")}
                         disabled={status === "submitting"}
                         placeholder="visitor@example.com"
-                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500 transition-colors outline-none ${
+                        className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
                           errors.email && touched.email
                             ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
                             : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
@@ -521,7 +528,7 @@ export default function Contact() {
                       onBlur={() => handleBlur("subject")}
                       disabled={status === "submitting"}
                       placeholder="Software Engineer Role / Project Inquiry"
-                      className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500 transition-colors outline-none ${
+                      className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/60 transition-colors outline-none ${
                         errors.subject && touched.subject
                           ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
                           : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
@@ -552,8 +559,8 @@ export default function Contact() {
                     onChange={(e) => handleChange("message", e.target.value)}
                     onBlur={() => handleBlur("message")}
                     disabled={status === "submitting"}
-                    placeholder="Hi Laiba, I saw your portfolio and would love to discuss an opportunity..."
-                    className={`w-full p-3.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500 transition-colors outline-none resize-none leading-relaxed ${
+                    placeholder="Your message here..."
+                    className={`w-full p-3.5 rounded-xl bg-navy-950 border text-xs sm:text-sm text-white placeholder-slate-500/50 transition-colors outline-none resize-none leading-relaxed ${
                       errors.message && touched.message
                         ? "border-rose-500 focus:border-rose-400 focus:ring-1 focus:ring-rose-500/30"
                         : "border-white/10 hover:border-lavender-400/30 focus:border-lavender-400 focus:ring-1 focus:ring-lavender-400/40"
@@ -574,7 +581,7 @@ export default function Contact() {
                     whileTap={{ scale: status === "submitting" ? 1 : 0.98 }}
                     type="submit"
                     disabled={status === "submitting"}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-lavender-400 hover:bg-lavender-300 text-navy-950 transition-all duration-200 shadow-lavender-sm hover:shadow-lavender-md disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-lavender-400 hover:bg-lavender-300 text-navy-950 transition-all duration-200 shadow-lavender-sm hover:shadow-lavender-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {status === "submitting" ? (
                       <>
