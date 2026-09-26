@@ -1,15 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, Download, Check, Loader2 } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Mail, Github, Linkedin, Download, Check, Loader2, Sparkles } from "lucide-react";
 import { PROFILE_DATA } from "@/data/profile";
 import { downloadResumeFile } from "@/lib/download-cv";
 
 export default function Hero() {
   const [downloadingResume, setDownloadingResume] = useState(false);
   const [downloadedResume, setDownloadedResume] = useState(false);
+
+  // Interactive 3D Parallax & Physics Tilt on Portrait Image
+  const imageCardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springConfig = { damping: 22, stiffness: 240 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), springConfig);
+
+  const handleImageMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageCardRef.current) return;
+    const rect = imageCardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleImageMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   const handleResumeDownload = () => {
     setDownloadingResume(true);
@@ -207,37 +229,142 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Clean Studio Portrait with Gentle Float Effect */}
+          {/* Right Column: High-Animation Studio Portrait Showcase */}
           <div className="lg:col-span-5 flex justify-center order-1 lg:order-2">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.92, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-              className="relative group"
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative select-none"
             >
-              {/* Outer decorative card frame with soft lavender border */}
+              {/* Layer 1: Continuous Pulsing & Breathing Ambient Aura */}
               <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden p-1.5 bg-gradient-to-b from-lavender-400/30 via-lavender-500/10 to-transparent shadow-card-subtle"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.35, 0.65, 0.35],
+                }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -inset-8 rounded-full bg-gradient-to-tr from-lavender-400/40 via-purple-500/20 to-indigo-500/30 blur-3xl pointer-events-none -z-10"
+              />
+
+              {/* Layer 2: Animated Rotating Conic-Gradient Border Halo */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 12,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="absolute -inset-2.5 rounded-[2.2rem] bg-[conic-gradient(from_0deg,transparent_0_240deg,#a78bfa_300deg,#c4b5fd_340deg,#8b5cf6_360deg)] opacity-60 blur-md pointer-events-none"
+              />
+
+              {/* Layer 3: Interactive 3D Floating Tilt Card Frame */}
+              <motion.div
+                ref={imageCardRef}
+                onMouseMove={handleImageMouseMove}
+                onMouseLeave={handleImageMouseLeave}
+                style={{
+                  rotateX,
+                  rotateY,
+                  transformStyle: "preserve-3d",
+                }}
+                animate={{
+                  y: [0, -10, 0],
+                  rotateZ: [0, 0.8, -0.8, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{ scale: 1.03 }}
+                className="relative w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-3xl p-1.5 bg-gradient-to-b from-lavender-400/40 via-lavender-500/20 to-transparent shadow-2xl shadow-lavender-400/20 cursor-pointer group"
               >
-                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-900 relative">
+                {/* Glossy Inner Frame with Shine Sweep */}
+                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/10 shadow-inner">
+                  {/* Portrait Image with Smooth Scale Zoom */}
                   <Image
                     src={PROFILE_DATA.image}
                     alt={`${PROFILE_DATA.fullName} - Software Engineer`}
                     fill
                     unoptimized
                     priority
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108 group-hover:brightness-105"
                   />
-                  {/* Subtle inner gradient shadow at bottom */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent pointer-events-none" />
+
+                  {/* Dynamic Specular Sheen Sweep on Hover */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none" />
+
+                  {/* Subtle Cinematic Bottom Gradient Shadow */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent pointer-events-none" />
+
+                  {/* Verified Status Floating Badge inside frame bottom */}
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-navy-950/80 backdrop-blur-md text-slate-200 border border-white/10 shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>Available for hire</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-lavender-300/80 px-2 py-0.5 rounded-full bg-navy-950/70 border border-lavender-400/20 backdrop-blur-sm">
+                      Full-Stack
+                    </span>
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Decorative Corner Lavender Glow Dots */}
-              <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-lavender-400/40 blur-sm pointer-events-none" />
-              <div className="absolute -bottom-2 -left-2 w-6 h-6 rounded-full bg-lavender-500/30 blur-md pointer-events-none" />
+              {/* Floating Orbit Pill 1: Backend Architect (Top-Right) */}
+              <motion.div
+                animate={{
+                  y: [0, -8, 0],
+                  x: [0, 4, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -top-3.5 -right-4 sm:-right-6 z-20 pointer-events-none"
+              >
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0E1326]/90 backdrop-blur-xl border border-lavender-400/40 text-xs font-semibold text-lavender-300 shadow-xl shadow-black/40">
+                  <Sparkles className="w-3.5 h-3.5 text-lavender-400 fill-lavender-400/30" />
+                  <span className="text-[11px] tracking-wide">Java & Spring Boot</span>
+                </div>
+              </motion.div>
+
+              {/* Floating Orbit Pill 2: High Performance APIs (Bottom-Left) */}
+              <motion.div
+                animate={{
+                  y: [0, 8, 0],
+                  x: [0, -4, 0],
+                }}
+                transition={{
+                  duration: 4.8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.8,
+                }}
+                className="absolute -bottom-3.5 -left-4 sm:-left-6 z-20 pointer-events-none"
+              >
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0E1326]/90 backdrop-blur-xl border border-lavender-400/40 text-xs font-semibold text-slate-200 shadow-xl shadow-black/40">
+                  <span className="w-2 h-2 rounded-full bg-lavender-400 animate-ping" />
+                  <span className="text-[11px] tracking-wide">REST APIs & DBs</span>
+                </div>
+              </motion.div>
+
+              {/* Glowing Corner Accents */}
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.9, 0.4] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-2 -left-2 w-4 h-4 rounded-full bg-lavender-400/50 blur-sm pointer-events-none"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.9, 0.4] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-purple-500/50 blur-sm pointer-events-none"
+              />
             </motion.div>
           </div>
 
