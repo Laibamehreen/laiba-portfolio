@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
+  Code2,
   GraduationCap,
   Server,
   Database,
@@ -20,10 +21,10 @@ import { EDUCATION_DATA } from "@/data/education";
 export default function About() {
   const highlights = [
     {
-      icon: GraduationCap,
-      title: "BS Computer Science",
-      subtitle: "COMSATS University (Expected 2028) • CGPA: 3.75",
-      description: "Strong grounding in data structures, algorithms, object-oriented design, and database architecture.",
+      icon: Code2,
+      title: "Core CS & Algorithms",
+      subtitle: "Data Structures & OOP",
+      description: "Strong grounding in computational theory, algorithmic problem solving, object-oriented design, and clean architecture.",
     },
     {
       icon: Server,
