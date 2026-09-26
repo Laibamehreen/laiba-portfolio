@@ -219,21 +219,20 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col items-center justify-center text-center space-y-7 py-4"
+            className="lg:col-span-5 flex flex-col items-center justify-center text-center space-y-5 py-4 self-center"
           >
-            {/* Email Section (Centered) */}
-            <div className="flex flex-col items-center text-center space-y-2 w-full">
-              <div className="w-11 h-11 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 text-lavender-400 flex items-center justify-center hover:scale-105 hover:bg-lavender-400/20 transition-all duration-200">
-                <Mail className="w-5 h-5" />
-              </div>
-              <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-                Email
-              </span>
-              <div className="inline-flex items-center justify-center gap-2 max-w-full flex-wrap">
+            {/* Email and Location (Minimal 6px Spacing, Perfectly Centered) */}
+            <div className="flex flex-col items-center justify-center space-y-2 text-center w-full">
+              {/* Email */}
+              <div className="inline-flex items-center gap-2">
+                <Mail className="w-4 h-4 text-lavender-400 shrink-0" />
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                  Email:
+                </span>
                 <a
                   href="mailto:laibamehreenk@gmail.com"
                   title="Email laibamehreenk@gmail.com"
-                  className="text-base sm:text-lg font-medium text-white hover:text-lavender-300 transition-colors break-all"
+                  className="text-sm sm:text-base font-medium text-white hover:text-lavender-300 transition-colors"
                 >
                   laibamehreenk@gmail.com
                 </a>
@@ -242,33 +241,28 @@ export default function Contact() {
                   onClick={handleCopyEmail}
                   title={copied ? "Copied!" : "Copy email address"}
                   aria-label="Copy email address"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
+                  className="p-1 rounded text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
                 >
                   {copied ? (
-                    <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
-                      <Check className="w-4 h-4" />
+                    <span className="inline-flex items-center text-xs text-emerald-400 font-medium">
+                      <Check className="w-3.5 h-3.5" />
                     </span>
                   ) : (
-                    <Copy className="w-4 h-4" />
+                    <Copy className="w-3.5 h-3.5" />
                   )}
                 </button>
               </div>
-            </div>
 
-            {/* Subtle Divider */}
-            <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-            {/* Location Section (Centered) */}
-            <div className="flex flex-col items-center text-center space-y-2 w-full">
-              <div className="w-11 h-11 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 text-lavender-400 flex items-center justify-center hover:scale-105 hover:bg-lavender-400/20 transition-all duration-200">
-                <MapPin className="w-5 h-5" />
+              {/* Location */}
+              <div className="inline-flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-lavender-400 shrink-0" />
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                  Location:
+                </span>
+                <span className="text-sm sm:text-base font-medium text-white">
+                  Punjab, Pakistan
+                </span>
               </div>
-              <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-                Location
-              </span>
-              <p className="text-base sm:text-lg font-medium text-white">
-                Punjab, Pakistan
-              </p>
             </div>
 
             {/* Subtle Divider */}
