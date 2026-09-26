@@ -18,6 +18,7 @@ import {
   Tag,
   MessageSquare,
 } from "lucide-react";
+import SectionHeading from "./section-heading";
 import ScrollRevealSection from "./scroll-reveal-section";
 import { PROFILE_DATA } from "@/data/profile";
 
@@ -203,48 +204,37 @@ export default function Contact() {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-lavender-400/[0.05] rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        {/* Centered Heading of Contact Section */}
+        <SectionHeading
+          badge="Get In Touch"
+          title="Let's Connect"
+          subtitle="I'm open to software development opportunities, internships, freelance projects, and meaningful collaborations."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
-          {/* Left Column: Let's Connect, Intro, Minimalist Info Rows & Socials (5 Cols) */}
+          {/* Left Column: Contact Details, Minimalist Info Rows & Socials (5 Cols) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-7"
+            className="lg:col-span-5 flex flex-col justify-center space-y-6"
           >
-            {/* Header & Single Concise Introduction */}
-            <div className="space-y-3">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium"
-              >
+            {/* Header & Status */}
+            <div className="space-y-2.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Open for Collaboration</span>
-              </motion.div>
+              </div>
 
-              <motion.h2
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.05 }}
-                className="text-3xl sm:text-4xl font-bold tracking-tight text-white"
-              >
-                Let&apos;s Connect
-              </motion.h2>
+              <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+                Contact Information
+              </h3>
 
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.1 }}
-                className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-md"
-              >
-                I&apos;m open to software development opportunities, internships, freelance projects, and meaningful collaborations.
-              </motion.p>
+              <p className="text-sm text-slate-300 leading-relaxed max-w-md">
+                Feel free to reach out directly through email or any of my professional channels.
+              </p>
             </div>
 
             {/* Clean Minimalist Information Rows (No heavy cards) */}
