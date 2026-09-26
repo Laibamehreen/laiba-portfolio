@@ -50,6 +50,23 @@ export default function Hero() {
   const smoothGlowX = useSpring(glowPosX, { damping: 22, stiffness: 190 });
   const smoothGlowY = useSpring(glowPosY, { damping: 22, stiffness: 190 });
 
+  // Top-level hooks for dynamic transforms (ensures fixed hook count across all renders)
+  const heroSpotlightBg = useTransform(
+    [heroSpotlightX, heroSpotlightY],
+    ([x, y]) =>
+      `radial-gradient(650px circle at ${x}px ${y}px, rgba(167, 139, 250, 0.05), transparent 70%)`
+  );
+  const cardBackdropGlowBg = useTransform(
+    [smoothGlowX, smoothGlowY],
+    ([x, y]) =>
+      `radial-gradient(380px circle at ${x}% ${y}%, rgba(168, 85, 247, 0.4), rgba(139, 92, 246, 0.15) 45%, transparent 75%)`
+  );
+  const cardSurfaceGlowBg = useTransform(
+    [smoothGlowX, smoothGlowY],
+    ([x, y]) =>
+      `radial-gradient(280px circle at ${x}% ${y}%, rgba(216, 180, 254, 0.35), rgba(168, 85, 247, 0.12) 50%, transparent 75%)`
+  );
+
   const [isImageHovered, setIsImageHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const imageCardRef = useRef<HTMLDivElement>(null);
@@ -141,18 +158,13 @@ export default function Hero() {
       className="relative pt-12 pb-16 md:pt-16 md:pb-24 overflow-hidden"
     >
       {/* Subtle Ambient Cursor Spotlight */}
-      {!shouldReduceMotion && (
-        <motion.div
-          style={{
-            background: useTransform(
-              [heroSpotlightX, heroSpotlightY],
-              ([x, y]) =>
-                `radial-gradient(650px circle at ${x}px ${y}px, rgba(167, 139, 250, 0.05), transparent 70%)`
-            ),
-          }}
-          className="absolute inset-0 pointer-events-none -z-10"
-        />
-      )}
+      <motion.div
+        style={{
+          background: heroSpotlightBg,
+          opacity: shouldReduceMotion ? 0 : 1,
+        }}
+        className="absolute inset-0 pointer-events-none -z-10 transition-opacity duration-300"
+      />
 
       {/* Subtle Lavender Ambient Glows */}
       <motion.div
@@ -468,20 +480,14 @@ export default function Hero() {
                 />
 
                 {/* Subtle Purple Glow Following Cursor Movement (Behind Card) */}
-                {!isTouchDevice && (
-                  <motion.div
-                    style={{
-                      opacity: isImageHovered ? 0.8 : 0.35,
-                      background: useTransform(
-                        [smoothGlowX, smoothGlowY],
-                        ([x, y]) =>
-                          `radial-gradient(380px circle at ${x}% ${y}%, rgba(168, 85, 247, 0.4), rgba(139, 92, 246, 0.15) 45%, transparent 75%)`
-                      ),
-                    }}
-                    transition={{ duration: 0.25 }}
-                    className="absolute -inset-6 rounded-3xl blur-xl pointer-events-none -z-10 transition-opacity duration-300"
-                  />
-                )}
+                <motion.div
+                  style={{
+                    opacity: !isTouchDevice && isImageHovered ? 0.8 : !isTouchDevice ? 0.35 : 0,
+                    background: cardBackdropGlowBg,
+                  }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute -inset-6 rounded-3xl blur-xl pointer-events-none -z-10 transition-opacity duration-300"
+                />
 
                 {/* Animated Image Border: Slow subtle gradient continuously traveling around edge */}
                 <motion.div
@@ -523,19 +529,13 @@ export default function Hero() {
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 pointer-events-none z-10" />
 
                     {/* Subtle Purple Surface Light Reflection Following Cursor */}
-                    {!isTouchDevice && (
-                      <motion.div
-                        style={{
-                          opacity: isImageHovered ? 0.45 : 0,
-                          background: useTransform(
-                            [smoothGlowX, smoothGlowY],
-                            ([x, y]) =>
-                              `radial-gradient(280px circle at ${x}% ${y}%, rgba(216, 180, 254, 0.35), rgba(168, 85, 247, 0.12) 50%, transparent 75%)`
-                          ),
-                        }}
-                        className="absolute inset-0 pointer-events-none z-20 transition-opacity duration-300"
-                      />
-                    )}
+                    <motion.div
+                      style={{
+                        opacity: !isTouchDevice && isImageHovered ? 0.45 : 0,
+                        background: cardSurfaceGlowBg,
+                      }}
+                      className="absolute inset-0 pointer-events-none z-20 transition-opacity duration-300"
+                    />
 
                     {/* Subtle Cinematic Bottom Vignette */}
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent pointer-events-none" />
