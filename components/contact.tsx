@@ -213,137 +213,124 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
-          {/* Left Column: Direct Channels & Minimalist Info Rows (5 Cols) */}
+          {/* Left Column: Centered Direct Channels Card with Lighting Edges (5 Cols) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-5"
+            className="lg:col-span-5 h-full flex flex-col justify-center"
           >
-            {/* Clean Minimalist Information Rows (No heavy cards) */}
-            <div className="space-y-4">
-              {/* Email Row */}
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="flex items-center justify-between gap-4 p-3 -mx-3 rounded-xl hover:bg-white/[0.03] transition-colors group"
-              >
-                <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
-                    <Mail className="w-4 h-4" />
+            <div className="relative group h-full flex flex-col justify-center">
+              {/* Lighting Edge Glow Accent */}
+              <div className="absolute -inset-[1px] rounded-[1.35rem] bg-gradient-to-br from-lavender-400/40 via-purple-500/25 to-indigo-500/35 opacity-70 group-hover:opacity-100 blur-[2px] transition-opacity duration-500 pointer-events-none" />
+
+              {/* Centered Glassmorphic Contact Card */}
+              <div className="relative cv-card p-6 sm:p-8 flex flex-col items-center justify-center text-center space-y-6 border border-lavender-400/25 group-hover:border-lavender-400/45 shadow-[0_0_30px_rgba(167,139,250,0.12)] transition-all duration-300">
+                {/* Email Section (Centered) */}
+                <div className="flex flex-col items-center text-center space-y-2 w-full">
+                  <div className="w-11 h-11 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 text-lavender-400 flex items-center justify-center group-hover:scale-105 group-hover:bg-lavender-400/20 transition-all duration-200">
+                    <Mail className="w-5 h-5" />
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">
-                      Email
-                    </span>
+                  <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                    Email
+                  </span>
+                  <div className="inline-flex items-center justify-center gap-2 max-w-full flex-wrap">
                     <a
                       href="mailto:laibamehreenk@gmail.com"
                       title="Email laibamehreenk@gmail.com"
-                      className="text-sm sm:text-base font-medium text-white hover:text-lavender-300 transition-colors break-all block truncate"
+                      className="text-sm sm:text-base font-medium text-white hover:text-lavender-300 transition-colors break-all"
                     >
                       laibamehreenk@gmail.com
                     </a>
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      title={copied ? "Copied!" : "Copy email address"}
+                      aria-label="Copy email address"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
+                    >
+                      {copied ? (
+                        <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
+                          <Check className="w-4 h-4" />
+                        </span>
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
                   </div>
                 </div>
 
-                {/* Email Copy Action Button */}
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  title="Copy email address"
-                  className="p-2 rounded-lg text-slate-400 hover:text-lavender-300 hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
-                  aria-label="Copy email address"
-                >
-                  {copied ? (
-                    <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
-                      <Check className="w-4 h-4" />
-                    </span>
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </motion.div>
+                {/* Subtle Divider */}
+                <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-              {/* Location Row */}
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="flex items-center gap-3.5 p-3 -mx-3 rounded-xl hover:bg-white/[0.03] transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-xl bg-lavender-400/10 border border-lavender-400/20 text-lavender-400 flex items-center justify-center shrink-0 group-hover:bg-lavender-400/20 group-hover:scale-105 transition-all duration-200">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">
+                {/* Location Section (Centered) */}
+                <div className="flex flex-col items-center text-center space-y-2 w-full">
+                  <div className="w-11 h-11 rounded-2xl bg-lavender-400/10 border border-lavender-400/25 text-lavender-400 flex items-center justify-center group-hover:scale-105 group-hover:bg-lavender-400/20 transition-all duration-200">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
                     Location
                   </span>
                   <p className="text-sm sm:text-base font-medium text-white">
                     Punjab, Pakistan
                   </p>
                 </div>
-              </motion.div>
-            </div>
 
-            {/* Social Links Directly Underneath */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.25 }}
-              className="pt-4 border-t border-white/[0.06]"
-            >
-              <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block mb-3">
-                Connect Online
-              </span>
-              <div className="flex flex-wrap items-center gap-2.5">
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={PROFILE_DATA.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub Profile"
-                  title="GitHub Profile"
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
-                >
-                  <Github className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
-                  <span>GitHub</span>
-                </motion.a>
+                {/* Subtle Divider */}
+                <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={PROFILE_DATA.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn Profile"
-                  title="LinkedIn Profile"
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
-                >
-                  <Linkedin className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
-                  <span>LinkedIn</span>
-                </motion.a>
+                {/* Connect Online Section (Centered) */}
+                <div className="flex flex-col items-center text-center space-y-3 w-full">
+                  <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                    Connect Online
+                  </span>
+                  <div className="flex flex-wrap items-center justify-center gap-2.5">
+                    <motion.a
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={PROFILE_DATA.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="GitHub Profile"
+                      title="GitHub Profile"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                    >
+                      <Github className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
+                      <span>GitHub</span>
+                    </motion.a>
 
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://www.upwork.com/freelancers/~01649656063f558079"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Upwork Profile"
-                  title="Upwork Profile"
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group shadow-sm"
-                >
-                  <UpworkIcon className="w-4 h-4 text-lavender-400 group-hover:text-lavender-300 transition-colors" />
-                  <span>Upwork</span>
-                </motion.a>
+                    <motion.a
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={PROFILE_DATA.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn Profile"
+                      title="LinkedIn Profile"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                    >
+                      <Linkedin className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
+                      <span>LinkedIn</span>
+                    </motion.a>
+
+                    <motion.a
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      href="https://www.upwork.com/freelancers/~01649656063f558079"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Upwork Profile"
+                      title="Upwork Profile"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-lavender-400/15 border border-white/10 hover:border-lavender-400/30 text-slate-300 hover:text-white transition-all text-xs font-semibold group/btn shadow-sm"
+                    >
+                      <UpworkIcon className="w-4 h-4 text-lavender-400 group-hover/btn:text-lavender-300 transition-colors" />
+                      <span>Upwork</span>
+                    </motion.a>
+                  </div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Right Column: Contact Message Form (7 Cols) */}
@@ -354,7 +341,11 @@ export default function Contact() {
             transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7"
           >
-            <div className="cv-card p-6 sm:p-8 relative">
+            <div className="relative group">
+              {/* Lighting Edge Glow Accent */}
+              <div className="absolute -inset-[1px] rounded-[1.35rem] bg-gradient-to-br from-lavender-400/40 via-purple-500/25 to-indigo-500/35 opacity-70 group-hover:opacity-100 blur-[2px] transition-opacity duration-500 pointer-events-none" />
+
+              <div className="cv-card p-6 sm:p-8 relative border border-lavender-400/25 group-hover:border-lavender-400/45 shadow-[0_0_30px_rgba(167,139,250,0.12)] transition-all duration-300">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-white mb-1.5 flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-lavender-400" />
@@ -571,6 +562,7 @@ export default function Contact() {
                   </motion.button>
                 </div>
               </form>
+            </div>
             </div>
           </motion.div>
         </div>
