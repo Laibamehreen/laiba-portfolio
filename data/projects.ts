@@ -75,7 +75,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     image: "/projects/hospital-management.jpg",
     previewImage: "/projects/hospital-management.jpg",
     githubUrl: "https://github.com/Laibamehreen/hospital-management-system",
-    liveDemoUrl: "https://hospital-mgt-system-demo.vercel.app",
+    liveDemoUrl: "https://hospital-management-system-drab.vercel.app/",
     featured: true
   },
   {
@@ -89,7 +89,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     image: "/projects/health-guide.jpg",
     previewImage: "/projects/health-guide.jpg",
     githubUrl: "https://github.com/Laibamehreen/health-guide-app",
-    liveDemoUrl: "https://health-guide-app-demo.vercel.app",
+    liveDemoUrl: "https://health-guide-app-brown.vercel.app/",
     featured: false
   },
   {
@@ -103,7 +103,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     image: "/projects/food-delivery.jpg",
     previewImage: "/projects/food-delivery.jpg",
     githubUrl: "https://github.com/Laibamehreen/food-delivery-app",
-    liveDemoUrl: "https://food-delivery-demo.vercel.app",
+    liveDemoUrl: "https://food-delivery-app-rust-alpha.vercel.app/",
     featured: false
   }
 ];

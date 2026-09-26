@@ -213,7 +213,7 @@ export const PORTFOLIO_DATA = {
         { label: "Operations", value: "Patients & Hospital Data" },
       ],
       githubUrl: "https://github.com",
-      liveDemoUrl: "https://hospital-mgt-system-demo.vercel.app",
+      liveDemoUrl: "https://hospital-management-system-drab.vercel.app/",
     },
     {
       id: "inventory-management-system",
@@ -280,6 +280,7 @@ export const PORTFOLIO_DATA = {
         { label: "Platform", value: "iOS & Android" },
       ],
       githubUrl: "https://github.com",
+      liveDemoUrl: "https://health-guide-app-brown.vercel.app/",
     },
     {
       id: "food-delivery-app",
@@ -305,7 +306,7 @@ export const PORTFOLIO_DATA = {
         { label: "State", value: "Interactive Cart Management" },
       ],
       githubUrl: "https://github.com",
-      liveDemoUrl: "https://food-delivery-demo.vercel.app",
+      liveDemoUrl: "https://food-delivery-app-rust-alpha.vercel.app/",
     },
   ] as ProjectItem[],
 
