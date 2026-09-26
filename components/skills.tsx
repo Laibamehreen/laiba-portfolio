@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Server, Layout, Database, CheckCircle, Code2, ShieldCheck, Cpu } from "lucide-react";
 import SectionHeading from "./section-heading";
 import ScrollRevealSection from "./scroll-reveal-section";
 import { SKILLS_DATA } from "@/data/skills";
 
 export default function Skills() {
+  const shouldReduceMotion = useReducedMotion();
   const getCategoryIcon = (key: string) => {
     switch (key) {
       case "backend":
@@ -70,19 +71,31 @@ export default function Skills() {
                     {category.description}
                   </p>
 
-                  {/* Skills List / Chips */}
+                  {/* Skills List / Chips with Staggered Reveal and Smooth Hover */}
                   <div className="space-y-2.5">
-                    {category.skills.map((skill) => (
+                    {category.skills.map((skill, sIdx) => (
                       <motion.div
                         key={skill.name}
-                        whileHover={{ x: 4, transition: { duration: 0.15 } }}
-                        className="group flex flex-col p-2.5 rounded-xl bg-slate-100/70 dark:bg-navy-850/60 hover:bg-lavender-50/80 dark:hover:bg-navy-800/80 border border-slate-200/80 dark:border-white/[0.05] hover:border-lavender-400/30 transition-colors duration-150"
+                        initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.35,
+                          delay: 0.15 + sIdx * 0.04,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                        whileHover={
+                          shouldReduceMotion
+                            ? undefined
+                            : { y: -2, scale: 1.015, transition: { duration: 0.18, ease: "easeOut" } }
+                        }
+                        className="group flex flex-col p-2.5 rounded-xl bg-slate-100/70 dark:bg-navy-850/60 hover:bg-lavender-50/80 dark:hover:bg-navy-800/80 border border-slate-200/80 dark:border-white/[0.05] hover:border-lavender-400/40 hover:shadow-[0_0_15px_-3px_rgba(167,139,250,0.2)] transition-all duration-200"
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-semibold text-white group-hover:text-lavender-300 transition-colors">
                             {skill.name}
                           </span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-lavender-400/60 group-hover:bg-lavender-400" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-lavender-400/60 group-hover:bg-lavender-400 transition-colors" />
                         </div>
                         {skill.description && (
                           <p className="text-[11px] text-slate-400 mt-1 leading-normal">

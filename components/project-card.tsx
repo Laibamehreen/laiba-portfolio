@@ -201,16 +201,21 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 {project.shortDescription}
               </CardDescription>
 
-              {/* Technology Badges */}
+              {/* Technology Badges with Subtle Motion */}
               <div className="flex flex-wrap items-center gap-1 pt-0.5">
                 {project.technologies.slice(0, 4).map((tech) => (
-                  <Badge
+                  <motion.div
                     key={tech}
-                    variant="outline"
-                    className="text-[10px] font-normal py-0.5 px-2 bg-white/[0.03] text-slate-300 border-white/[0.08] hover:border-lavender-400/30 hover:text-white transition-colors"
+                    whileHover={{ y: -1.5, scale: 1.04 }}
+                    transition={{ duration: 0.15 }}
                   >
-                    {tech}
-                  </Badge>
+                    <Badge
+                      variant="outline"
+                      className="text-[10px] font-normal py-0.5 px-2 bg-white/[0.03] text-slate-300 border-white/[0.08] hover:border-lavender-400/40 hover:text-white transition-colors"
+                    >
+                      {tech}
+                    </Badge>
+                  </motion.div>
                 ))}
                 {project.technologies.length > 4 && (
                   <span className="text-[9.5px] text-slate-400 font-mono px-1">
@@ -221,10 +226,12 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             </CardContent>
           </div>
 
-          {/* Card Footer: Action Buttons (GitHub Repo + Live Demo) */}
+          {/* Card Footer: Action Buttons (GitHub Repo + Live Demo) with Independent Icon Reactions */}
           <CardFooter className="p-4 pt-2.5 border-t border-white/[0.08] bg-white/[0.01] relative z-10 flex items-center justify-between gap-2">
             {project.githubUrl ? (
-              <a
+              <motion.a
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96 }}
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -233,16 +240,16 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold
                   bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 hover:text-white border border-white/10 hover:border-white/20 transition-all duration-200 group/git"
               >
-                <Github className="w-3.5 h-3.5 text-slate-400 group-hover/git:text-white transition-colors shrink-0" />
+                <Github className="w-3.5 h-3.5 text-slate-400 group-hover/git:text-white group-hover/git:scale-110 transition-all shrink-0" />
                 <span>Source</span>
-              </a>
+              </motion.a>
             ) : (
               <div />
             )}
 
             {project.liveDemoUrl && (
               <motion.a
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.97 }}
                 href={project.liveDemoUrl}
                 target="_blank"
