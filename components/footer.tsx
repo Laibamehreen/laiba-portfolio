@@ -25,11 +25,11 @@ export default function Footer() {
         {/* Center: Navigation Links */}
         <div className="flex flex-wrap items-center justify-center gap-4 text-slate-400">
           <Link href="#about" className="hover:text-lavender-300 transition-colors">About</Link>
+          <Link href="#education" className="hover:text-lavender-300 transition-colors">Education</Link>
           <Link href="#skills" className="hover:text-lavender-300 transition-colors">Skills</Link>
           <Link href="#experience" className="hover:text-lavender-300 transition-colors">Experience</Link>
           <Link href="#certificates" className="hover:text-lavender-300 transition-colors">Certificates</Link>
           <Link href="#projects" className="hover:text-lavender-300 transition-colors">Projects</Link>
-          <Link href="#education" className="hover:text-lavender-300 transition-colors">Education</Link>
           <Link href="#contact" className="hover:text-lavender-300 transition-colors">Contact</Link>
         </div>
 

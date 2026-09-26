@@ -213,32 +213,16 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
-          {/* Left Column: Contact Details, Minimalist Info Rows & Socials (5 Cols) */}
+          {/* Left Column: Direct Channels & Minimalist Info Rows (5 Cols) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-6"
+            className="lg:col-span-5 flex flex-col justify-center space-y-5"
           >
-            {/* Header & Status */}
-            <div className="space-y-2.5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-400/10 border border-lavender-400/20 text-lavender-300 text-xs font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Open for Collaboration</span>
-              </div>
-
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                Contact Information
-              </h3>
-
-              <p className="text-sm text-slate-300 leading-relaxed max-w-md">
-                Feel free to reach out directly through email or any of my professional channels.
-              </p>
-            </div>
-
             {/* Clean Minimalist Information Rows (No heavy cards) */}
-            <div className="space-y-4 pt-2">
+            <div className="space-y-4">
               {/* Email Row */}
               <motion.div
                 initial={{ opacity: 0, x: -10 }}

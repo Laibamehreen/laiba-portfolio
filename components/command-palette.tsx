@@ -117,6 +117,14 @@ export default function CommandPalette({ showTrigger = false }: CommandPalettePr
       action: () => scrollTo("about"),
     },
     {
+      id: "nav-education",
+      title: "Education",
+      subtitle: "BS Computer Science at COMSATS University",
+      category: "Navigation",
+      icon: GraduationCap,
+      action: () => scrollTo("education"),
+    },
+    {
       id: "nav-skills",
       title: "Technical Skills",
       subtitle: "Java, Spring Boot, REST APIs, PostgreSQL, React",
@@ -147,14 +155,6 @@ export default function CommandPalette({ showTrigger = false }: CommandPalettePr
       category: "Navigation",
       icon: FolderGit2,
       action: () => scrollTo("projects"),
-    },
-    {
-      id: "nav-education",
-      title: "Education",
-      subtitle: "BS Computer Science at COMSATS University",
-      category: "Navigation",
-      icon: GraduationCap,
-      action: () => scrollTo("education"),
     },
     {
       id: "nav-contact",
