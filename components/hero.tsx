@@ -15,9 +15,17 @@ export default function Hero() {
   const imageCardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springConfig = { damping: 22, stiffness: 240 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), springConfig);
+  const springConfig = { damping: 20, stiffness: 220 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [16, -16]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-16, 16]), springConfig);
+  const glareX = useSpring(useTransform(mouseX, [-0.5, 0.5], [0, 100]), springConfig);
+  const glareY = useSpring(useTransform(mouseY, [-0.5, 0.5], [0, 100]), springConfig);
+  const glareBackground = useTransform(
+    [glareX, glareY],
+    ([x, y]) =>
+      `radial-gradient(circle 240px at ${x}% ${y}%, rgba(255, 255, 255, 0.28), transparent 70%)`
+  );
+  const [isImageHovered, setIsImageHovered] = useState(false);
 
   const handleImageMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageCardRef.current) return;
@@ -26,11 +34,13 @@ export default function Hero() {
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     mouseX.set(x);
     mouseY.set(y);
+    setIsImageHovered(true);
   };
 
   const handleImageMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
+    setIsImageHovered(false);
   };
 
   const handleResumeDownload = () => {
@@ -229,40 +239,52 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column: High-Animation Studio Portrait Showcase */}
+          {/* Right Column: High-Animation Studio Portrait Showcase (Pure Image, No Extra Badges/Text) */}
           <div className="lg:col-span-5 flex justify-center order-1 lg:order-2">
             <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 30 }}
+              initial={{ opacity: 0, scale: 0.88, y: 35 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="relative select-none"
             >
-              {/* Layer 1: Continuous Pulsing & Breathing Ambient Aura */}
+              {/* Layer 1: Multi-Color Pulsing & Morphing Ambient Glow */}
               <motion.div
                 animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.35, 0.65, 0.35],
+                  scale: [1, 1.25, 1],
+                  opacity: [0.4, 0.75, 0.4],
+                  rotate: [0, 180, 360],
                 }}
                 transition={{
-                  duration: 4.5,
+                  duration: 9,
                   repeat: Infinity,
-                  ease: "easeInOut",
+                  ease: "linear",
                 }}
-                className="absolute -inset-8 rounded-full bg-gradient-to-tr from-lavender-400/40 via-purple-500/20 to-indigo-500/30 blur-3xl pointer-events-none -z-10"
+                className="absolute -inset-10 rounded-full bg-gradient-to-tr from-lavender-400/40 via-purple-600/30 to-indigo-500/40 blur-3xl pointer-events-none -z-10"
               />
 
-              {/* Layer 2: Animated Rotating Conic-Gradient Border Halo */}
+              {/* Layer 2: Fast Iridescent Conic Border Ring (Clockwise) */}
               <motion.div
                 animate={{ rotate: 360 }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="absolute -inset-2.5 rounded-[2.3rem] bg-[conic-gradient(from_0deg,#c084fc_0%,#818cf8_25%,#38bdf8_50%,#e879f9_75%,#c084fc_100%)] opacity-70 blur-md pointer-events-none"
+              />
+
+              {/* Layer 3: Counter-Rotating Fine Border Halo (Counter-Clockwise) */}
+              <motion.div
+                animate={{ rotate: -360 }}
                 transition={{
                   duration: 12,
                   repeat: Infinity,
                   ease: "linear",
                 }}
-                className="absolute -inset-2.5 rounded-[2.2rem] bg-[conic-gradient(from_0deg,transparent_0_240deg,#a78bfa_300deg,#c4b5fd_340deg,#8b5cf6_360deg)] opacity-60 blur-md pointer-events-none"
+                className="absolute -inset-1 rounded-[2.1rem] bg-[conic-gradient(from_180deg,#818cf8_0%,#c084fc_50%,#38bdf8_100%)] opacity-80 blur-sm pointer-events-none"
               />
 
-              {/* Layer 3: Interactive 3D Floating Tilt Card Frame */}
+              {/* Layer 4: Interactive 3D Floating Tilt Card Frame */}
               <motion.div
                 ref={imageCardRef}
                 onMouseMove={handleImageMouseMove}
@@ -273,47 +295,79 @@ export default function Hero() {
                   transformStyle: "preserve-3d",
                 }}
                 animate={{
-                  y: [0, -10, 0],
-                  rotateZ: [0, 0.8, -0.8, 0],
+                  y: [0, -16, 0],
+                  rotateZ: [0, 1.2, -1.2, 0],
                 }}
                 transition={{
-                  duration: 6,
+                  duration: 5.5,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                whileHover={{ scale: 1.03 }}
-                className="relative w-64 h-72 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-3xl p-1.5 bg-gradient-to-b from-lavender-400/40 via-lavender-500/20 to-transparent shadow-2xl shadow-lavender-400/20 cursor-pointer group"
+                whileHover={{ scale: 1.04 }}
+                className="relative w-64 h-76 sm:w-72 sm:h-84 md:w-80 md:h-[26rem] rounded-3xl p-1.5 bg-gradient-to-b from-lavender-400/40 via-lavender-500/20 to-transparent shadow-2xl shadow-lavender-400/25 cursor-pointer group"
               >
-                {/* Glossy Inner Frame with Shine Sweep */}
-                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/10 shadow-inner">
-                  {/* Portrait Image with Smooth Scale Zoom */}
+                {/* Inner Clipping Viewport */}
+                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/15 shadow-inner">
+                  {/* Portrait Image with Scale & Contrast Lift */}
                   <Image
                     src={PROFILE_DATA.image}
-                    alt={`${PROFILE_DATA.fullName} - Software Engineer`}
+                    alt={PROFILE_DATA.fullName}
                     fill
                     unoptimized
                     priority
-                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108 group-hover:brightness-105"
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110 group-hover:contrast-105 group-hover:brightness-105"
+                  />
+
+                  {/* Continuous Holographic Specular Beam Sweep (Automatic Periodic Glint) */}
+                  <motion.div
+                    animate={{ x: ["-160%", "260%"] }}
+                    transition={{
+                      duration: 3.2,
+                      repeat: Infinity,
+                      repeatDelay: 2.2,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                    className="absolute inset-0 w-2/3 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-25 pointer-events-none z-10"
                   />
 
                   {/* Dynamic Specular Sheen Sweep on Hover */}
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none" />
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none z-15" />
 
-                  {/* Subtle Cinematic Bottom Gradient Shadow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent pointer-events-none" />
+                  {/* Interactive Glare Spotlight tracking Mouse Cursor */}
+                  <motion.div
+                    style={{
+                      background: glareBackground,
+                      opacity: isImageHovered ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className="absolute inset-0 pointer-events-none z-20"
+                  />
+
+                  {/* Subtle Cinematic Bottom & Top Gradient Vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/75 via-transparent to-navy-950/20 pointer-events-none" />
                 </div>
               </motion.div>
 
-              {/* Glowing Corner Accents */}
+              {/* Corner Glint Energy Orbs */}
               <motion.div
-                animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.9, 0.4] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-2 -left-2 w-4 h-4 rounded-full bg-lavender-400/50 blur-sm pointer-events-none"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.95, 0.4] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-2 -left-2 w-4 h-4 rounded-full bg-lavender-300 blur-sm pointer-events-none"
               />
               <motion.div
-                animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.9, 0.4] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-purple-500/50 blur-sm pointer-events-none"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.95, 0.4] }}
+                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                className="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-purple-400 blur-sm pointer-events-none"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.85, 0.3] }}
+                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                className="absolute -top-2 -right-2 w-3.5 h-3.5 rounded-full bg-cyan-300 blur-sm pointer-events-none"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.85, 0.3] }}
+                transition={{ duration: 3.0, repeat: Infinity, ease: "easeInOut", delay: 2.1 }}
+                className="absolute -bottom-2 -left-2 w-3.5 h-3.5 rounded-full bg-indigo-400 blur-sm pointer-events-none"
               />
             </motion.div>
           </div>
