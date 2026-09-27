@@ -25,7 +25,7 @@ export default function ScrollProgress() {
   return (
     <motion.div
       style={{ scaleX }}
-      className={`fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-lavender-500 via-lavender-400 to-indigo-400 origin-left z-50 pointer-events-none transition-opacity duration-300 ${
+      className={`fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-lavender-500 via-lavender-400 to-indigo-400 origin-left z-[60] pointer-events-none transition-opacity duration-300 ${
         isVisible ? "opacity-100 shadow-[0_0_12px_rgba(167,139,250,0.8)]" : "opacity-0"
       }`}
     />

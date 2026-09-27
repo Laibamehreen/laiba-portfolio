@@ -7,13 +7,13 @@ import { Menu, X, ChevronRight } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Education", href: "#education" },
-  { name: "Skills", href: "#skills" },
-  { name: "Experience", href: "#experience" },
-  { name: "Certificates", href: "#certificates" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: "About", href: "/#about", sectionId: "about" },
+  { name: "Education", href: "/#education", sectionId: "education" },
+  { name: "Skills", href: "/#skills", sectionId: "skills" },
+  { name: "Experience", href: "/#experience", sectionId: "experience" },
+  { name: "Certificates", href: "/#certificates", sectionId: "certificates" },
+  { name: "Projects", href: "/#projects", sectionId: "projects" },
+  { name: "Contact", href: "/#contact", sectionId: "contact" },
 ];
 
 export default function Navbar() {
@@ -25,12 +25,12 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map((link) => link.href.substring(1));
+      const sections = navLinks.map((link) => link.sectionId);
       const current = sections.find((section) => {
         const el = document.getElementById(section);
         if (el) {
           const rect = el.getBoundingClientRect();
-          return rect.top <= 120 && rect.bottom >= 120;
+          return rect.top <= 140 && rect.bottom >= 140;
         }
         return false;
       });
@@ -70,19 +70,23 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 no-print w-full ${
-        /* Solid, 100% opaque background on mobile so content never shows through; subtle blur only on desktop */
-        scrolled
-          ? "bg-[#080B16] dark:bg-[#080B16] lg:bg-[#080B16]/90 lg:backdrop-blur-md border-b border-lavender-400/15 shadow-lg shadow-black/40"
-          : "bg-[#080B16] dark:bg-[#080B16] lg:bg-[#080B16]/75 lg:backdrop-blur-sm border-b border-white/[0.08]"
-      }`}
-    >
+    <>
+      <header
+        style={{
+          WebkitBackdropFilter: scrolled ? "blur(16px)" : "blur(12px)",
+          backdropFilter: scrolled ? "blur(16px)" : "blur(12px)",
+        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 no-print w-full backdrop-blur-md ${
+          scrolled
+            ? "bg-[#080B16]/85 dark:bg-[#080B16]/85 border-b border-lavender-400/15 shadow-lg shadow-black/40"
+            : "bg-[#080B16]/55 dark:bg-[#080B16]/55 border-b border-white/[0.06]"
+        }`}
+      >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <Link
-            href="#"
+            href="/"
             className="flex items-center group focus:outline-none"
             aria-label="Laiba Mehreen - Home"
           >
@@ -94,7 +98,7 @@ export default function Navbar() {
           {/* Desktop Navigation (visible on lg screens, 1024px+) */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
+              const isActive = activeSection === link.sectionId;
               return (
                 <Link
                   key={link.name}
@@ -146,14 +150,17 @@ export default function Navbar() {
               aria-hidden="true"
             />
 
-            {/* Mobile Sheet / Drawer with Solid 100% Opaque Background */}
+            {/* Mobile Sheet / Drawer with Frosted Glassmorphism */}
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              style={{ backgroundColor: "#080B16" }}
-              className="lg:hidden fixed top-16 sm:top-20 inset-x-0 z-50 !bg-[#080B16] border-b border-lavender-400/20 shadow-2xl max-h-[calc(100vh-5rem)] overflow-y-auto"
+              style={{
+                WebkitBackdropFilter: "blur(20px)",
+                backdropFilter: "blur(20px)",
+              }}
+              className="lg:hidden fixed top-16 sm:top-20 inset-x-0 z-50 bg-[#080B16]/95 backdrop-blur-xl border-b border-lavender-400/20 shadow-2xl max-h-[calc(100vh-5rem)] overflow-y-auto"
             >
               <div className="px-5 py-6 space-y-2 max-w-md mx-auto">
                 <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/10">
@@ -166,7 +173,7 @@ export default function Navbar() {
                 </div>
 
                 {navLinks.map((link) => {
-                  const isActive = activeSection === link.href.substring(1);
+                  const isActive = activeSection === link.sectionId;
                   return (
                     <Link
                       key={link.name}
@@ -193,5 +200,8 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
+    {/* Spacer to preserve document layout offset under fixed navbar */}
+    <div className="h-16 sm:h-20 w-full shrink-0" aria-hidden="true" />
+  </>
   );
 }

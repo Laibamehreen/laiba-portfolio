@@ -4,7 +4,7 @@ import { ArrowLeft, Home } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#080B16] text-[#F8FAFC] px-4">
+    <div className="min-h-[70vh] py-16 flex items-center justify-center px-4 relative">
       {/* Background ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[350px] bg-lavender-400/10 rounded-full blur-3xl pointer-events-none -z-10" />
 

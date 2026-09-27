@@ -1,4 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import ScrollProgress from "@/components/scroll-progress";
+import CommandPalette from "@/components/command-palette";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -76,7 +80,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className="relative font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300 overflow-x-hidden w-full max-w-full"
+        className="relative font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300 overflow-x-clip w-full max-w-full"
       >
         <script
           dangerouslySetInnerHTML={{
@@ -92,8 +96,23 @@ export default function RootLayout({
             `,
           }}
         />
-        <div className="relative min-h-screen flex flex-col justify-between">
-          {children}
+        <div className="relative min-h-screen flex flex-col justify-between overflow-x-clip w-full">
+          {/* Top Scroll Progress Bar */}
+          <ScrollProgress />
+
+          {/* Headless Command Palette (⌘K / Ctrl+K) */}
+          <CommandPalette showTrigger={false} />
+
+          {/* Sticky/Fixed Minimal Glass Navbar */}
+          <Navbar />
+
+          {/* Page Content */}
+          <main className="relative flex-grow">
+            {children}
+          </main>
+
+          {/* Minimal Footer */}
+          <Footer />
         </div>
       </body>
     </html>
