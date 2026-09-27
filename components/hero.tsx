@@ -507,7 +507,7 @@ export default function Hero() {
                     WebkitBackfaceVisibility: "hidden",
                     backfaceVisibility: "hidden",
                   }}
-                  className="relative w-64 h-76 sm:w-72 sm:h-84 md:w-80 md:h-[26rem] rounded-3xl p-1 bg-gradient-to-b from-lavender-400/30 via-lavender-500/15 to-transparent shadow-xl shadow-lavender-400/15"
+                  className="relative w-[230px] h-[290px] xs:w-[250px] xs:h-[320px] sm:w-[275px] sm:h-[350px] md:w-[310px] md:h-[395px] lg:w-[320px] lg:h-[410px] max-w-[85vw] rounded-3xl p-1 bg-gradient-to-b from-lavender-400/30 via-lavender-500/15 to-transparent shadow-xl shadow-lavender-400/15"
                 >
                   {/* Inner Clipping Viewport */}
                   <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-navy-950 relative border border-white/10 shadow-inner">
@@ -518,6 +518,7 @@ export default function Hero() {
                       fill
                       unoptimized
                       priority
+                      sizes="(max-width: 480px) 250px, (max-width: 768px) 280px, 320px"
                       className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-103"
                       style={{
                         transform: "translateZ(0)",

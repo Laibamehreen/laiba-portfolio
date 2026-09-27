@@ -152,7 +152,10 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     if (status === "submitting") return;
 
@@ -180,21 +183,17 @@ export default function Contact() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to send message. Please try again.");
+        throw new Error("Something went wrong. Please try again.");
       }
 
       setStatus("success");
-      setStatusMessage("Thanks for reaching out! Your message has been sent successfully.");
+      setStatusMessage("Message sent successfully. I'll get back to you soon.");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setTouched({ name: false, email: false, subject: false, message: false });
       setErrors({});
-    } catch (err: unknown) {
+    } catch {
       setStatus("error");
-      const msg =
-        err instanceof Error
-          ? err.message
-          : "An unexpected error occurred. Please try again or reach out directly via email.";
-      setStatusMessage(msg);
+      setStatusMessage("Something went wrong. Please try again.");
     }
   };
 
@@ -217,10 +216,10 @@ export default function Contact() {
           
           {/* Left Column: Contact Information (40%, No Container) */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-2 flex flex-col justify-between py-2 sm:py-4"
           >
             <div>
@@ -342,10 +341,10 @@ export default function Contact() {
 
           {/* Right Column: Contact Message Form (60%) */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-3 h-full"
           >
             <div className="relative group h-full">
@@ -404,7 +403,13 @@ export default function Contact() {
                     )}
                   </AnimatePresence>
 
-                  <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                  <form
+                    onSubmit={handleSubmit}
+                    action="javascript:void(0);"
+                    method="POST"
+                    noValidate
+                    className="space-y-4"
+                  >
                     {/* Name & Email Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Name Field */}
@@ -559,7 +564,7 @@ export default function Contact() {
                         {status === "submitting" ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin text-navy-950" />
-                            <span>Sending Message...</span>
+                            <span>Sending...</span>
                           </>
                         ) : (
                           <>

@@ -66,9 +66,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         suppressHydrationWarning
-        className="font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300"
+        className="relative font-sans antialiased bg-[#F8FAFC] dark:bg-[#080B16] text-slate-900 dark:text-[#F8FAFC] selection:bg-lavender-400/20 selection:text-lavender-300 transition-colors duration-300 overflow-x-hidden w-full max-w-full"
       >
         <script
           dangerouslySetInnerHTML={{

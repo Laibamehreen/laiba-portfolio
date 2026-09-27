@@ -11,8 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["'Geist'", "var(--font-geist-sans)", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["'Geist Mono'", "var(--font-geist-mono)", "monospace"],
+        sans: ["'Google Sans'", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+        heading: ["'Google Sans'", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+        mono: ["'Google Sans'", "monospace"],
       },
       colors: {
         background: "#080B16",

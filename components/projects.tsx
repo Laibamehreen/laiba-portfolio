@@ -258,7 +258,7 @@ export default function Projects() {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          className={`flex gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-6 px-6 sm:px-12 lg:px-16 
+          className={`flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-6 px-4 sm:px-12 lg:px-16 
             ${
               isMouseDown
                 ? "cursor-grabbing select-none"

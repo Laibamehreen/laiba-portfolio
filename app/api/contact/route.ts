@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { Resend } from "resend";
 
 export const dynamic = "force-dynamic";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const RECIPIENT_EMAIL = process.env.CONTACT_RECEIVER_EMAIL || "laibamehreenk@gmail.com";
+
+function sanitizeInput(text: string): string {
+  return text.trim();
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -18,129 +20,187 @@ function escapeHtml(text: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { name, email, subject, message } = body;
+    const body = await req.json().catch(() => null);
 
-    // 1. Validation
-    if (!name || typeof name !== "string" || name.trim().length < 2) {
+    if (!body || typeof body !== "object") {
       return NextResponse.json(
-        { success: false, error: "Sender's name is required (minimum 2 characters)." },
+        { success: false, error: "Invalid request payload." },
         { status: 400 }
       );
     }
 
-    if (!email || typeof email !== "string" || !EMAIL_REGEX.test(email.trim())) {
+    const { name, email, subject, message } = body;
+
+    // 1. Validation
+    if (!name || typeof name !== "string" || sanitizeInput(name).length < 2) {
+      return NextResponse.json(
+        { success: false, error: "Name is required (minimum 2 characters)." },
+        { status: 400 }
+      );
+    }
+    if (sanitizeInput(name).length > 100) {
+      return NextResponse.json(
+        { success: false, error: "Name must not exceed 100 characters." },
+        { status: 400 }
+      );
+    }
+
+    if (!email || typeof email !== "string" || !EMAIL_REGEX.test(sanitizeInput(email))) {
       return NextResponse.json(
         { success: false, error: "A valid email address is required." },
         { status: 400 }
       );
     }
+    if (sanitizeInput(email).length > 120) {
+      return NextResponse.json(
+        { success: false, error: "Email must not exceed 120 characters." },
+        { status: 400 }
+      );
+    }
 
-    if (!subject || typeof subject !== "string" || subject.trim().length < 2) {
+    if (!subject || typeof subject !== "string" || sanitizeInput(subject).length < 2) {
       return NextResponse.json(
         { success: false, error: "Subject is required (minimum 2 characters)." },
         { status: 400 }
       );
     }
+    if (sanitizeInput(subject).length > 200) {
+      return NextResponse.json(
+        { success: false, error: "Subject must not exceed 200 characters." },
+        { status: 400 }
+      );
+    }
 
-    if (!message || typeof message !== "string" || message.trim().length < 5) {
+    if (!message || typeof message !== "string" || sanitizeInput(message).length < 5) {
       return NextResponse.json(
         { success: false, error: "Message is required (minimum 5 characters)." },
         { status: 400 }
       );
     }
+    if (sanitizeInput(message).length > 5000) {
+      return NextResponse.json(
+        { success: false, error: "Message must not exceed 5000 characters." },
+        { status: 400 }
+      );
+    }
 
-    const cleanName = name.trim();
-    const cleanEmail = email.trim();
-    const cleanSubject = subject.trim();
-    const cleanMessage = message.trim();
+    const cleanName = sanitizeInput(name);
+    const cleanEmail = sanitizeInput(email);
+    const cleanSubject = sanitizeInput(subject);
+    const cleanMessage = sanitizeInput(message);
 
-    // 2. Timestamps
+    // 2. Format Submission Timestamp
     const now = new Date();
-    const formattedDatePkt = new Intl.DateTimeFormat("en-US", {
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
       dateStyle: "full",
       timeStyle: "long",
       timeZone: "Asia/Karachi",
     }).format(now);
-    const formattedDateUtc = now.toUTCString();
+    const utcString = now.toUTCString();
 
-    // 3. Email Content Generation
+    // 3. Environment Variables for Gmail SMTP
+    const gmailUser = process.env.GMAIL_USER || process.env.SMTP_USER;
+    const gmailAppPassword = (
+      process.env.GMAIL_APP_PASSWORD ||
+      process.env.SMTP_PASS ||
+      process.env.SMTP_PASSWORD ||
+      ""
+    ).replace(/\s+/g, ""); // Strip spaces if copied directly with formatting
+    const contactEmail =
+      process.env.CONTACT_EMAIL ||
+      process.env.CONTACT_RECEIVER_EMAIL ||
+      gmailUser;
+
+    // 4. Construct Email Payloads
     const escapedName = escapeHtml(cleanName);
     const escapedEmail = escapeHtml(cleanEmail);
     const escapedSubject = escapeHtml(cleanSubject);
     const escapedMessage = escapeHtml(cleanMessage).replace(/\n/g, "<br/>");
 
-    const emailSubject = `[Portfolio Inquiry] ${cleanSubject} — from ${cleanName}`;
+    const emailSubject = `[Portfolio Contact] ${cleanSubject}`;
+
+    const textContent = `
+New contact form submission
+
+Name: ${cleanName}
+Email: ${cleanEmail}
+Subject: ${cleanSubject}
+
+Message:
+${cleanMessage}
+
+Submission Date & Time:
+${formattedDate} (${utcString})
+
+Reply-To: ${cleanEmail}
+Sent from Laiba Mehreen's Portfolio Website
+    `.trim();
 
     const htmlContent = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>New Portfolio Message</title>
+  <title>New Portfolio Contact Form Submission</title>
 </head>
-<body style="margin: 0; padding: 24px; background-color: #080B16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e2e8f0;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #0E1326; border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+<body style="margin: 0; padding: 24px; background-color: #080B16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f8fafc;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #0E1326; border: 1px solid rgba(167, 139, 250, 0.25); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
     
     <!-- Header Banner -->
-    <div style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); padding: 28px 32px; border-bottom: 1px solid rgba(167, 139, 250, 0.2);">
-      <h1 style="margin: 0; font-size: 20px; font-weight: 700; color: #EDE9FE; letter-spacing: -0.01em;">
-        New Contact Inquiry
+    <div style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); padding: 24px 30px; border-bottom: 1px solid rgba(167, 139, 250, 0.2);">
+      <h1 style="margin: 0; font-size: 19px; font-weight: 700; color: #EDE9FE;">
+        New Contact Form Submission
       </h1>
       <p style="margin: 6px 0 0 0; font-size: 13px; color: #C4B5FD;">
-        Submitted via Laiba Mehreen's Portfolio Website
+        Received from your portfolio website
       </p>
     </div>
 
-    <!-- Metadata Table -->
-    <div style="padding: 28px 32px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background-color: #0B0F1F;">
+    <!-- Details Table -->
+    <div style="padding: 24px 30px; background-color: #0B0F1F; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
       <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
         <tr>
-          <td style="padding: 8px 0; color: #94a3b8; font-weight: 600; width: 120px;">Sender Name:</td>
-          <td style="padding: 8px 0; color: #f8fafc; font-weight: 600;">${escapedName}</td>
+          <td style="padding: 8px 0; color: #94A3B8; font-weight: 600; width: 100px;">Name:</td>
+          <td style="padding: 8px 0; color: #F8FAFC; font-weight: 600;">${escapedName}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; color: #94a3b8; font-weight: 600;">Sender Email:</td>
+          <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Email:</td>
           <td style="padding: 8px 0; color: #A78BFA;">
             <a href="mailto:${escapedEmail}" style="color: #A78BFA; text-decoration: underline;">${escapedEmail}</a>
           </td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; color: #94a3b8; font-weight: 600;">Subject:</td>
-          <td style="padding: 8px 0; color: #f8fafc;">${escapedSubject}</td>
+          <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Subject:</td>
+          <td style="padding: 8px 0; color: #F8FAFC;">${escapedSubject}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; color: #94a3b8; font-weight: 600;">Date & Time:</td>
-          <td style="padding: 8px 0; color: #cbd5e1; font-size: 13px;">
-            ${formattedDatePkt}<br/>
-            <span style="color: #64748b; font-size: 12px;">(UTC: ${formattedDateUtc})</span>
-          </td>
+          <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Date:</td>
+          <td style="padding: 8px 0; color: #CBD5E1; font-size: 13px;">${formattedDate}</td>
         </tr>
       </table>
     </div>
 
-    <!-- Message Body -->
-    <div style="padding: 32px;">
-      <h2 style="margin: 0 0 14px 0; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em;">
-        Message Content
+    <!-- Message Content -->
+    <div style="padding: 28px 30px;">
+      <h2 style="margin: 0 0 12px 0; font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em;">
+        Message
       </h2>
-      <div style="padding: 20px 22px; background-color: #070A14; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #A78BFA; border-radius: 10px; font-size: 14px; line-height: 1.65; color: #f1f5f9;">
+      <div style="padding: 18px 20px; background-color: #070A14; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #A78BFA; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #F1F5F9;">
         ${escapedMessage}
       </div>
 
-      <!-- Quick Reply Action -->
-      <div style="margin-top: 28px; text-align: center;">
-        <a href="mailto:${escapedEmail}?subject=Re: ${encodeURIComponent(cleanSubject)}" 
-           style="display: inline-block; padding: 12px 24px; background-color: #A78BFA; color: #080B16; text-decoration: none; font-size: 13px; font-weight: 700; border-radius: 8px; box-shadow: 0 4px 14px 0 rgba(167, 139, 250, 0.3);">
-          Reply Directly to ${escapedName}
+      <!-- Quick Reply Button -->
+      <div style="margin-top: 24px; text-align: center;">
+        <a href="mailto:${escapedEmail}?subject=Re: ${encodeURIComponent(cleanSubject)}"
+           style="display: inline-block; padding: 12px 24px; background-color: #A78BFA; color: #080B16; text-decoration: none; font-size: 13px; font-weight: 700; border-radius: 8px;">
+          Reply to ${escapedName}
         </a>
       </div>
     </div>
 
     <!-- Footer -->
-    <div style="padding: 16px 32px; background-color: #070A14; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 11px; color: #64748b; text-align: center;">
-      This message was sent automatically from your personal portfolio.<br/>
-      Reply-To header is set to <strong>${escapedEmail}</strong>.
+    <div style="padding: 14px 30px; background-color: #070A14; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 11px; color: #64748B; text-align: center;">
+      Reply-To is configured to <strong>${escapedEmail}</strong>.
     </div>
 
   </div>
@@ -148,147 +208,78 @@ export async function POST(req: NextRequest) {
 </html>
     `.trim();
 
-    const textContent = `
-NEW PORTFOLIO CONTACT INQUIRY
-=============================
+    // 5. Check if Gmail SMTP credentials are configured
+    if (!gmailUser || !gmailAppPassword || !contactEmail) {
+      console.warn(
+        "⚠️ [CONTACT FORM] Gmail SMTP credentials missing in environment. Set GMAIL_USER, GMAIL_APP_PASSWORD, and CONTACT_EMAIL."
+      );
 
-Sender:    ${cleanName}
-Email:     ${cleanEmail}
-Subject:   ${cleanSubject}
-Date/Time: ${formattedDatePkt} (UTC: ${formattedDateUtc})
-
-MESSAGE:
------------------------------
-${cleanMessage}
------------------------------
-
-Reply directly to: ${cleanEmail}
-Sent via Laiba Mehreen's Portfolio Website
-    `.trim();
-
-    // 4. Method A: SMTP Email Delivery (via Nodemailer)
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS || process.env.SMTP_PASSWORD;
-    const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 465;
-    const smtpSecure = process.env.SMTP_SECURE !== undefined
-      ? process.env.SMTP_SECURE === "true" || process.env.SMTP_SECURE === "1"
-      : smtpPort === 465;
-
-    if (smtpHost && smtpUser && smtpPass) {
-      try {
-        const transporter = nodemailer.createTransport({
-          host: smtpHost,
-          port: smtpPort,
-          secure: smtpSecure,
-          auth: {
-            user: smtpUser,
-            pass: smtpPass,
-          },
-        });
-
-        const fromAddress = process.env.SMTP_FROM || `"${cleanName} (via Portfolio)" <${smtpUser}>`;
-
-        const info = await transporter.sendMail({
-          from: fromAddress,
-          to: RECIPIENT_EMAIL,
-          replyTo: `"${cleanName}" <${cleanEmail}>`,
-          subject: emailSubject,
-          text: textContent,
-          html: htmlContent,
-        });
-
-        console.log("Email sent successfully via SMTP:", info.messageId);
+      // In development mode, provide successful simulation so local UI testing works smoothly
+      if (process.env.NODE_ENV !== "production") {
+        console.log("------------------------------------------");
+        console.log("📧 [CONTACT FORM DEV SIMULATION]");
+        console.log(`From (Visitor): ${cleanName} <${cleanEmail}>`);
+        console.log(`To: ${contactEmail || "laibamehreenk@gmail.com"}`);
+        console.log(`Subject: ${emailSubject}`);
+        console.log(`Message:\n${cleanMessage}`);
+        console.log("------------------------------------------");
 
         return NextResponse.json({
           success: true,
-          message: "Thanks for reaching out! Your message has been sent successfully via SMTP.",
-          messageId: info.messageId,
+          message: "Message sent successfully. I'll get back to you soon.",
         });
-      } catch (smtpError: unknown) {
-        console.error("SMTP transport error:", smtpError);
-        const errMessage = smtpError instanceof Error ? smtpError.message : "SMTP delivery failed";
-        return NextResponse.json(
-          {
-            success: false,
-            error: `SMTP delivery error: ${errMessage}. Please verify your SMTP credentials.`,
-          },
-          { status: 500 }
-        );
       }
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Something went wrong. Please try again.",
+        },
+        { status: 500 }
+      );
     }
 
-    // 5. Method B: Fallback to Resend API (if configured)
-    const resendApiKey = process.env.RESEND_API_KEY;
-    if (resendApiKey && resendApiKey !== "re_your_api_key_here") {
-      try {
-        const resend = new Resend(resendApiKey);
-        const fromEmail = process.env.RESEND_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>";
+    // 6. Send Email via Gmail SMTP using Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailAppPassword,
+      },
+    });
 
-        const { data, error } = await resend.emails.send({
-          from: fromEmail,
-          to: [RECIPIENT_EMAIL],
-          replyTo: cleanEmail,
-          subject: emailSubject,
-          html: htmlContent,
-          text: textContent,
-        });
-
-        if (error) {
-          console.error("Resend API error:", error);
-          return NextResponse.json(
-            {
-              success: false,
-              error: error.message || "Failed to deliver email through Resend provider.",
-            },
-            { status: 500 }
-          );
-        }
-
-        return NextResponse.json({
-          success: true,
-          message: "Thanks for reaching out! Your message has been sent successfully.",
-          id: data?.id,
-        });
-      } catch (resendError: unknown) {
-        console.error("Resend delivery error:", resendError);
-      }
-    }
-
-    // 6. Development Simulation Fallback
-    if (process.env.NODE_ENV !== "production") {
-      console.log("==========================================");
-      console.log("📧 [CONTACT FORM SIMULATION - DEV MODE]");
-      console.log("Note: Neither SMTP nor Resend credentials configured yet.");
-      console.log(`To: ${RECIPIENT_EMAIL}`);
-      console.log(`From (Visitor): ${cleanName} <${cleanEmail}>`);
-      console.log(`Subject: ${cleanSubject}`);
-      console.log(`Date: ${formattedDatePkt}`);
-      console.log(`Message:\n${cleanMessage}`);
-      console.log("==========================================");
+    try {
+      await transporter.sendMail({
+        from: `"My Portfolio Contact Form" <${gmailUser}>`,
+        to: contactEmail,
+        replyTo: `"${cleanName}" <${cleanEmail}>`,
+        subject: emailSubject,
+        text: textContent,
+        html: htmlContent,
+      });
 
       return NextResponse.json({
         success: true,
-        simulated: true,
-        message: "Thanks for reaching out! Your message has been sent successfully (Dev Simulation).",
+        message: "Message sent successfully. I'll get back to you soon.",
       });
-    }
+    } catch (smtpError) {
+      // Log the full technical error to server console for debugging, but never expose to client
+      console.error("Gmail SMTP transport error:", smtpError);
 
-    // 7. Production Error when neither service is set
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Something went wrong. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
+  } catch (err) {
+    console.error("Contact API unhandled error:", err);
     return NextResponse.json(
       {
         success: false,
-        error:
-          "Email delivery service is not configured. Please set SMTP credentials (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS) in your environment variables.",
-      },
-      { status: 500 }
-    );
-  } catch (err: unknown) {
-    console.error("Unhandled contact API error:", err);
-    return NextResponse.json(
-      {
-        success: false,
-        error: "An unexpected error occurred while processing your request. Please try again later.",
+        error: "Something went wrong. Please try again.",
       },
       { status: 500 }
     );

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShieldCheck, ExternalLink, Eye } from "lucide-react";
 import SectionHeading from "./section-heading";
@@ -38,18 +39,18 @@ export default function Certificates() {
               className="cv-card p-6 sm:p-7 flex flex-col justify-between group transition-shadow duration-300 hover:shadow-lavender-md h-full"
             >
               <div>
-                {/* Certificate Preview Frame with Real Document Thumbnail */}
-                {/* Certificate Preview Frame with Native PDF Thumbnail */}
+                {/* Certificate Preview Frame with Responsive Image Thumbnail */}
                 <div
                   onClick={() => handleOpenCert(cert)}
-                  className="relative w-full h-64 sm:h-72 rounded-2xl mb-5 overflow-hidden bg-slate-900 border border-lavender-400/20 shadow-lg cursor-pointer group-hover:border-lavender-400/50 transition-all duration-300"
+                  className="relative w-full h-56 sm:h-64 md:h-72 rounded-2xl mb-5 overflow-hidden bg-slate-900 border border-lavender-400/20 shadow-lg cursor-pointer group-hover:border-lavender-400/50 transition-all duration-300"
                 >
-                  <iframe
-                    src={`${cert.filePath}#toolbar=0&navpanes=0&scrollbar=0&view=FitH&page=1`}
-                    title={`${cert.title} PDF Preview`}
-                    scrolling="no"
-                    className="w-[calc(100%+20px)] h-full border-0 pointer-events-none select-none bg-white"
-                    loading="lazy"
+                  <Image
+                    src={cert.previewImage}
+                    alt={`${cert.title} issued by ${cert.organization}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 550px"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-103"
+                    priority={idx === 0}
                   />
 
                   {/* Subtle top-right credential badge */}
