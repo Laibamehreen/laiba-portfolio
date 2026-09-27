@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const { name, email, subject, message } = body;
 
-    // 1. Validation
+    // 1. Field Validations
     if (!name || typeof name !== "string" || sanitizeInput(name).length < 2) {
       return NextResponse.json(
         { success: false, error: "Name is required (minimum 2 characters)." },
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
     const cleanSubject = sanitizeInput(subject);
     const cleanMessage = sanitizeInput(message);
 
-    // 2. Format Submission Timestamp
+    // 2. Submission Timestamp
     const now = new Date();
     const formattedDate = new Intl.DateTimeFormat("en-US", {
       dateStyle: "full",
@@ -98,29 +98,31 @@ export async function POST(req: NextRequest) {
     }).format(now);
     const utcString = now.toUTCString();
 
-    // 3. Environment Variables for Gmail SMTP
-    const gmailUser = process.env.GMAIL_USER || process.env.SMTP_USER;
-    const gmailAppPassword = (
+    // 3. SMTP & Gmail Configuration (with direct production-ready fallbacks)
+    const smtpUser = (
+      process.env.GMAIL_USER ||
+      process.env.SMTP_USER ||
+      "laibamehreenk@gmail.com"
+    ).trim();
+
+    const smtpPass = (
       process.env.GMAIL_APP_PASSWORD ||
       process.env.SMTP_PASS ||
       process.env.SMTP_PASSWORD ||
-      ""
-    ).replace(/\s+/g, ""); // Strip spaces if copied directly with formatting
-    const contactEmail =
+      "lsalmmwdetspvmep"
+    ).replace(/\s+/g, "");
+
+    const recipientEmail = (
       process.env.CONTACT_EMAIL ||
       process.env.CONTACT_RECEIVER_EMAIL ||
-      gmailUser;
-
-    // 4. Construct Email Payloads
-    const escapedName = escapeHtml(cleanName);
-    const escapedEmail = escapeHtml(cleanEmail);
-    const escapedSubject = escapeHtml(cleanSubject);
-    const escapedMessage = escapeHtml(cleanMessage).replace(/\n/g, "<br/>");
+      smtpUser ||
+      "laibamehreenk@gmail.com"
+    ).trim();
 
     const emailSubject = `[Portfolio Contact] ${cleanSubject}`;
 
     const textContent = `
-New contact form submission
+New contact form submission received from Laiba Mehreen's Portfolio:
 
 Name: ${cleanName}
 Email: ${cleanEmail}
@@ -129,11 +131,8 @@ Subject: ${cleanSubject}
 Message:
 ${cleanMessage}
 
-Submission Date & Time:
-${formattedDate} (${utcString})
-
-Reply-To: ${cleanEmail}
-Sent from Laiba Mehreen's Portfolio Website
+Timestamp: ${formattedDate} (${utcString})
+Sender Reply-To: ${cleanEmail}
     `.trim();
 
     const htmlContent = `
@@ -161,17 +160,17 @@ Sent from Laiba Mehreen's Portfolio Website
       <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
         <tr>
           <td style="padding: 8px 0; color: #94A3B8; font-weight: 600; width: 100px;">Name:</td>
-          <td style="padding: 8px 0; color: #F8FAFC; font-weight: 600;">${escapedName}</td>
+          <td style="padding: 8px 0; color: #F8FAFC; font-weight: 600;">${escapeHtml(cleanName)}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Email:</td>
           <td style="padding: 8px 0; color: #A78BFA;">
-            <a href="mailto:${escapedEmail}" style="color: #A78BFA; text-decoration: underline;">${escapedEmail}</a>
+            <a href="mailto:${escapeHtml(cleanEmail)}" style="color: #A78BFA; text-decoration: underline;">${escapeHtml(cleanEmail)}</a>
           </td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Subject:</td>
-          <td style="padding: 8px 0; color: #F8FAFC;">${escapedSubject}</td>
+          <td style="padding: 8px 0; color: #F8FAFC;">${escapeHtml(cleanSubject)}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #94A3B8; font-weight: 600;">Date:</td>
@@ -186,21 +185,21 @@ Sent from Laiba Mehreen's Portfolio Website
         Message
       </h2>
       <div style="padding: 18px 20px; background-color: #070A14; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #A78BFA; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #F1F5F9;">
-        ${escapedMessage}
+        ${escapeHtml(cleanMessage).replace(/\n/g, "<br/>")}
       </div>
 
       <!-- Quick Reply Button -->
       <div style="margin-top: 24px; text-align: center;">
-        <a href="mailto:${escapedEmail}?subject=Re: ${encodeURIComponent(cleanSubject)}"
+        <a href="mailto:${escapeHtml(cleanEmail)}?subject=Re: ${encodeURIComponent(cleanSubject)}"
            style="display: inline-block; padding: 12px 24px; background-color: #A78BFA; color: #080B16; text-decoration: none; font-size: 13px; font-weight: 700; border-radius: 8px;">
-          Reply to ${escapedName}
+          Reply to ${escapeHtml(cleanName)}
         </a>
       </div>
     </div>
 
     <!-- Footer -->
     <div style="padding: 14px 30px; background-color: #070A14; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 11px; color: #64748B; text-align: center;">
-      Reply-To is configured to <strong>${escapedEmail}</strong>.
+      Reply-To is configured to <strong>${escapeHtml(cleanEmail)}</strong>.
     </div>
 
   </div>
@@ -208,78 +207,42 @@ Sent from Laiba Mehreen's Portfolio Website
 </html>
     `.trim();
 
-    // 5. Check if Gmail SMTP credentials are configured
-    if (!gmailUser || !gmailAppPassword || !contactEmail) {
-      console.warn(
-        "⚠️ [CONTACT FORM] Gmail SMTP credentials missing in environment. Set GMAIL_USER, GMAIL_APP_PASSWORD, and CONTACT_EMAIL."
-      );
-
-      // In development mode, provide successful simulation so local UI testing works smoothly
-      if (process.env.NODE_ENV !== "production") {
-        console.log("------------------------------------------");
-        console.log("📧 [CONTACT FORM DEV SIMULATION]");
-        console.log(`From (Visitor): ${cleanName} <${cleanEmail}>`);
-        console.log(`To: ${contactEmail || "laibamehreenk@gmail.com"}`);
-        console.log(`Subject: ${emailSubject}`);
-        console.log(`Message:\n${cleanMessage}`);
-        console.log("------------------------------------------");
-
-        return NextResponse.json({
-          success: true,
-          message: "Message sent successfully. I'll get back to you soon.",
-        });
-      }
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Something went wrong. Please try again.",
-        },
-        { status: 500 }
-      );
-    }
-
-    // 6. Send Email via Gmail SMTP using Nodemailer
+    // 4. Create Standard SMTP Transporter (port 465 SSL or 587 TLS)
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: process.env.SMTP_SECURE !== "false", // default to SSL 465
       auth: {
-        user: gmailUser,
-        pass: gmailAppPassword,
+        user: smtpUser,
+        pass: smtpPass,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
-    try {
-      await transporter.sendMail({
-        from: `"My Portfolio Contact Form" <${gmailUser}>`,
-        to: contactEmail,
-        replyTo: `"${cleanName}" <${cleanEmail}>`,
-        subject: emailSubject,
-        text: textContent,
-        html: htmlContent,
-      });
+    // 5. Send Real Email via SMTP
+    const info = await transporter.sendMail({
+      from: `"Laiba Mehreen Portfolio" <${smtpUser}>`,
+      to: recipientEmail,
+      replyTo: `"${cleanName}" <${cleanEmail}>`,
+      subject: emailSubject,
+      text: textContent,
+      html: htmlContent,
+    });
 
-      return NextResponse.json({
-        success: true,
-        message: "Message sent successfully. I'll get back to you soon.",
-      });
-    } catch (smtpError) {
-      // Log the full technical error to server console for debugging, but never expose to client
-      console.error("Gmail SMTP transport error:", smtpError);
+    console.log("✅ [SMTP SUCCESS] Message delivered:", info.messageId);
 
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Something went wrong. Please try again.",
-        },
-        { status: 500 }
-      );
-    }
-  } catch (err) {
-    console.error("Contact API unhandled error:", err);
+    return NextResponse.json({
+      success: true,
+      message: "Message sent successfully. I'll get back to you soon.",
+    });
+  } catch (error: any) {
+    console.error("❌ [SMTP ERROR] Failed to deliver contact form email:", error);
     return NextResponse.json(
       {
         success: false,
-        error: "Something went wrong. Please try again.",
+        error: "Something went wrong. Please try again or email directly at laibamehreenk@gmail.com",
       },
       { status: 500 }
     );
